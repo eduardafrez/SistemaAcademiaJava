@@ -56,6 +56,7 @@ public class fmPrincipal extends javax.swing.JFrame {
         itCadrastros = new javax.swing.JMenu();
         itAlunos = new javax.swing.JMenuItem();
         itListagem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         itProcessos = new javax.swing.JMenu();
         itAvaliacao = new javax.swing.JMenuItem();
         itFichas = new javax.swing.JMenuItem();
@@ -188,7 +189,7 @@ public class fmPrincipal extends javax.swing.JFrame {
         itCadrastros.setText("Cadastros");
 
         itAlunos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itAlunos.setText("Alunos");
+        itAlunos.setText("Aluno");
         itAlunos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itAlunosActionPerformed(evt);
@@ -204,6 +205,14 @@ public class fmPrincipal extends javax.swing.JFrame {
             }
         });
         itCadrastros.add(itListagem);
+
+        jMenuItem1.setText("Funcionário");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        itCadrastros.add(jMenuItem1);
 
         jMenuBar1.add(itCadrastros);
 
@@ -396,6 +405,13 @@ public class fmPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_btAddAlunoActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        fmFuncionario janela = new fmFuncionario();
+        jDesktopPane1.add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -432,6 +448,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTable jTable1;

@@ -93,7 +93,6 @@ public class fmAluno extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Nome : ");
 
-        txtNome.setText("Apague tudo");
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeActionPerformed(evt);
@@ -125,7 +124,7 @@ public class fmAluno extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel5.setText("Plano");
+        jLabel5.setText("Plano :");
 
         cbPlano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mensal", "Trimestral", "Semestral", "Anual" }));
         cbPlano.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +166,7 @@ public class fmAluno extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel6.setText("Endereço");
+        jLabel6.setText("Endereço :");
 
         txtEndereco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,37 +235,11 @@ public class fmAluno extends javax.swing.JInternalFrame {
             .addGroup(jDesktopPaneLayout.createSequentialGroup()
                 .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel8))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTelefone)
-                            .addComponent(txtCPF)
-                            .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(txtDataNascimento)
-                            .addComponent(txtEmail))
-                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(laDataMatricula)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
                         .addGap(68, 68, 68)
                         .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(24, 24, 24)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
@@ -276,17 +249,50 @@ public class fmAluno extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(rbOutro))
                                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
-                                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cbPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(58, 58, 58)
+                                        .addGap(144, 144, 144)
                                         .addComponent(btUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jDesktopPaneLayout.createSequentialGroup()
                                 .addComponent(btNovo)
                                 .addGap(18, 18, 18)
                                 .addComponent(btSalvar)
                                 .addGap(18, 18, 18)
-                                .addComponent(btCancelar)))))
+                                .addComponent(btCancelar)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtTelefone)
+                                    .addComponent(txtCPF)
+                                    .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                    .addComponent(txtDataNascimento)
+                                    .addComponent(txtEmail))
+                                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                                        .addGap(43, 43, 43)
+                                        .addComponent(laDataMatricula)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                                .addComponent(cbPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(135, 135, 135)))
                 .addContainerGap())
         );
         jDesktopPaneLayout.setVerticalGroup(
@@ -300,6 +306,10 @@ public class fmAluno extends javax.swing.JInternalFrame {
                     .addComponent(laDataMatricula, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDesktopPaneLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
                         .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
@@ -319,16 +329,12 @@ public class fmAluno extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cbPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPaneLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btUpload, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))))
+                .addGap(29, 29, 29)
                 .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(rbFeminino)
@@ -339,7 +345,7 @@ public class fmAluno extends javax.swing.JInternalFrame {
                     .addComponent(btCancelar)
                     .addComponent(btSalvar)
                     .addComponent(btNovo))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(3, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -361,10 +367,6 @@ public class fmAluno extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rbMasculinoActionPerformed
 
     private void btUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUploadActionPerformed
         // 1. Cria a janela de seleção de arquivo
@@ -441,18 +443,6 @@ public class fmAluno extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeActionPerformed
-
-    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtEnderecoActionPerformed
-
-    private void cbPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPlanoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbPlanoActionPerformed
-
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         // TODO add your handling code here:
         //definindo data de matricula como data atual
@@ -462,6 +452,22 @@ public class fmAluno extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_formInternalFrameActivated
+
+    private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rbMasculinoActionPerformed
+
+    private void cbPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPlanoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPlanoActionPerformed
+
+    private void txtEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEnderecoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEnderecoActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
     private void configurarRadioButtons() {
         // Cria o ButtonGroup
         grupoSexo = new ButtonGroup();
