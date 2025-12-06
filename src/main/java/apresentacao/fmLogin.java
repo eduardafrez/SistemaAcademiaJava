@@ -140,6 +140,7 @@ public class fmLogin extends javax.swing.JFrame {
 
     private void btCancelarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarLoginActionPerformed
         // TODO add your handling code here:
+        System.exit(0);
     }//GEN-LAST:event_btCancelarLoginActionPerformed
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
