@@ -50,6 +50,8 @@ public class fmPrincipal extends javax.swing.JFrame {
         btAddAluno = new javax.swing.JButton();
         btSair = new javax.swing.JButton();
         btLista = new javax.swing.JButton();
+        jtPagamentos = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         itCadrastros = new javax.swing.JMenu();
         itAlunos = new javax.swing.JMenuItem();
@@ -57,7 +59,7 @@ public class fmPrincipal extends javax.swing.JFrame {
         itProcessos = new javax.swing.JMenu();
         itAvaliacao = new javax.swing.JMenuItem();
         itFichas = new javax.swing.JMenuItem();
-        mnAjuda = new javax.swing.JMenu();
+        itAjuda = new javax.swing.JMenu();
         itSobre = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
@@ -73,6 +75,8 @@ public class fmPrincipal extends javax.swing.JFrame {
                 formWindowOpened(evt);
             }
         });
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
 
         laDataHora.setText("             ");
 
@@ -122,39 +126,61 @@ public class fmPrincipal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btLista)
+                    .addComponent(btSair)
+                    .addComponent(btAddAluno))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
                 .addComponent(btAddAluno)
                 .addGap(18, 18, 18)
                 .addComponent(btLista)
                 .addGap(18, 18, 18)
                 .addComponent(btSair)
-                .addContainerGap(603, Short.MAX_VALUE))
+                .addGap(18, 18, 18))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btSair)
-                    .addComponent(btLista)
-                    .addComponent(btAddAluno))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Id", "Nome", "Status"
+            }
+        ));
+        jtPagamentos.setViewportView(jTable1);
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jtPagamentos, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jtPagamentos, javax.swing.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 358, Short.MAX_VALUE)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtPagamentos, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                        .addGap(0, 90, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -202,17 +228,7 @@ public class fmPrincipal extends javax.swing.JFrame {
 
         jMenuBar1.add(itProcessos);
 
-        mnAjuda.setText("Ajuda");
-        mnAjuda.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mnAjudaMouseClicked(evt);
-            }
-        });
-        mnAjuda.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnAjudaActionPerformed(evt);
-            }
-        });
+        itAjuda.setText("Ajuda");
 
         itSobre.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itSobre.setText("Sobre");
@@ -221,9 +237,9 @@ public class fmPrincipal extends javax.swing.JFrame {
                 itSobreActionPerformed(evt);
             }
         });
-        mnAjuda.add(itSobre);
+        itAjuda.add(itSobre);
 
-        jMenuBar1.add(mnAjuda);
+        jMenuBar1.add(itAjuda);
 
         setJMenuBar(jMenuBar1);
 
@@ -242,7 +258,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itAlunosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itAlunosActionPerformed
-        //garante que não vai abrir caso o jif esteja aberto
+        //garante que não vai abrir caso o fm esteja aberto
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             if (frame instanceof fmAluno && frame.isVisible()) {
                 try {
@@ -259,7 +275,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itAlunosActionPerformed
 
     private void itListagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itListagemActionPerformed
-       //garante que não vai abrir caso o jif esteja aberto
+       //garante que não vai abrir caso o fm esteja aberto
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             if (frame instanceof fmListagem && frame.isVisible()) {
                 try {
@@ -277,7 +293,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_itListagemActionPerformed
 
     private void itAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itAvaliacaoActionPerformed
-       //garante que não vai abrir caso o jif esteja aberto
+       //garante que não vai abrir caso o fm esteja aberto
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             if (frame instanceof fmAvaliacao && frame.isVisible()) {
                 try {
@@ -292,11 +308,6 @@ public class fmPrincipal extends javax.swing.JFrame {
        jDesktopPane1.add(janela);
        janela.setVisible(true);
     }//GEN-LAST:event_itAvaliacaoActionPerformed
-
-    private void mnAjudaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mnAjudaMouseClicked
-        // Fecha o sistema inteiro
-
-    }//GEN-LAST:event_mnAjudaMouseClicked
 
     private void itFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itFichasActionPerformed
         //garante que não vai abrir caso o jif esteja aberto
@@ -319,10 +330,6 @@ public class fmPrincipal extends javax.swing.JFrame {
         // Faz aparecer
         janela.setVisible(true);
     }//GEN-LAST:event_itFichasActionPerformed
-
-    private void mnAjudaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnAjudaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnAjudaActionPerformed
     private String dataHora(){
         DateFormat datahora = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
         
@@ -343,25 +350,12 @@ public class fmPrincipal extends javax.swing.JFrame {
         timer.start();
     }//GEN-LAST:event_formWindowOpened
 
-    private void btAddAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddAlunoActionPerformed
+    private void itSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itSobreActionPerformed
         // TODO add your handling code here:
-        
-        //garante que não vai abrir caso o jif esteja aberto
-        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-            if (frame instanceof fmAluno && frame.isVisible()) {
-                try {
-                    frame.setSelected(true);
-                    return; // Já está aberta, sai do método
-                } catch (PropertyVetoException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        
-        fmAluno janela = new fmAluno();
-        jDesktopPane1.add(janela);
-        janela.setVisible(true);
-    }//GEN-LAST:event_btAddAlunoActionPerformed
+        fmSobre sobre = new fmSobre();
+        jDesktopPane1.add(sobre);
+        sobre.setVisible(true);
+    }//GEN-LAST:event_itSobreActionPerformed
 
     private void btListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListaActionPerformed
         // TODO add your handling code here:
@@ -370,9 +364,9 @@ public class fmPrincipal extends javax.swing.JFrame {
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
         // TODO add your handling code here:
         int valor = JOptionPane.showConfirmDialog(
-            null,                                   // Componente pai (null = centro da tela)
+            null,
             "Deseja realmente sair?",              // Mensagem
-            "Confirmação",                         // Título da janela  
+            "Confirmação",                         // Título da janela
             JOptionPane.YES_NO_OPTION,             // Tipo de opções (Sim/Não)
             JOptionPane.QUESTION_MESSAGE           // Ícone de interrogação
         );
@@ -382,10 +376,9 @@ public class fmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btSairActionPerformed
 
-    private void itSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itSobreActionPerformed
+    private void btAddAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddAlunoActionPerformed
         // TODO add your handling code here:
-        // TODO add your handling code here:
-        
+
         //garante que não vai abrir caso o jif esteja aberto
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
             if (frame instanceof fmAluno && frame.isVisible()) {
@@ -397,11 +390,11 @@ public class fmPrincipal extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         fmAluno janela = new fmAluno();
         jDesktopPane1.add(janela);
         janela.setVisible(true);
-    }//GEN-LAST:event_itSobreActionPerformed
+    }//GEN-LAST:event_btAddAlunoActionPerformed
     
     /**
      * @param args the command line arguments
@@ -425,6 +418,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btAddAluno;
     private javax.swing.JButton btLista;
     private javax.swing.JButton btSair;
+    private javax.swing.JMenu itAjuda;
     private javax.swing.JMenuItem itAlunos;
     private javax.swing.JMenuItem itAvaliacao;
     private javax.swing.JMenu itCadrastros;
@@ -439,7 +433,8 @@ public class fmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jtPagamentos;
     private javax.swing.JLabel laDataHora;
-    private javax.swing.JMenu mnAjuda;
     // End of variables declaration//GEN-END:variables
 }
