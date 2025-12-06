@@ -4,9 +4,14 @@
  */
 package apresentacao;
 import com.formdev.flatlaf.FlatDarkLaf; 
+import java.sql.Connection;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UnsupportedLookAndFeelException;
+import negocio.Funcionario;
+import persistencia.IFuncionarioDAO;
+import persistencia.FuncionarioDAO;
 
 public class fmLogin extends javax.swing.JFrame {
     
@@ -31,7 +36,7 @@ public class fmLogin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         laLogin = new javax.swing.JLabel();
         laSenha = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
+        txtUser = new javax.swing.JTextField();
         btLogin = new javax.swing.JButton();
         btCancelarLogin = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
@@ -46,9 +51,9 @@ public class fmLogin extends javax.swing.JFrame {
 
         laSenha.setText("Senha :");
 
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
+        txtUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
+                txtUserActionPerformed(evt);
             }
         });
 
@@ -79,7 +84,7 @@ public class fmLogin extends javax.swing.JFrame {
                             .addComponent(laLogin))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtLogin)
+                            .addComponent(txtUser)
                             .addComponent(txtSenha)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btLogin)
@@ -93,7 +98,7 @@ public class fmLogin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(laLogin)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(laSenha)
@@ -134,9 +139,9 @@ public class fmLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
+    private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
+    }//GEN-LAST:event_txtUserActionPerformed
 
     private void btCancelarLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarLoginActionPerformed
         // TODO add your handling code here:
@@ -145,24 +150,38 @@ public class fmLogin extends javax.swing.JFrame {
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
-        //Cria user padrao
-        String usuarioDefault = "user";
-        String senhaDefault = "123";
-        
-        //pega o que foi escrito nas caixas das caixas de texto
-        String usuarioDigitado = txtLogin.getText();
+        String usuarioDigitado = txtUser.getText().trim();
         String senhaDigitada = new String(txtSenha.getPassword());
-        
-        //verifica se é o user padrao
-        if(usuarioDefault.equals(usuarioDigitado) && senhaDefault.equals(senhaDigitada)) {
-            //caso os dados confiram criamos uma instancia do formulário principal
+
+        if (usuarioDigitado.isEmpty() || senhaDigitada.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Preencha usuário e senha!", 
+                "Aviso", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        IFuncionarioDAO dao = new FuncionarioDAO();
+        List<Funcionario> funcionarios = dao.listarTodos();
+
+        boolean acessoPermitido = false;
+
+        for (Funcionario funcionario : funcionarios) {
+            if (funcionario.getUsuario().equals(usuarioDigitado) && 
+                funcionario.getSenha().equals(senhaDigitada)) {
+                acessoPermitido = true;
+                break;
+            }
+        }
+
+        // Fechar conexão (importante!)
+                if (acessoPermitido) {
             fmPrincipal principal = new fmPrincipal();
             principal.setVisible(true);
-            principal.setExtendedState(JFrame.MAXIMIZED_BOTH); //mostramos maximizado
-            this.dispose(); //liberamos o formulário de login
-        }
-        else {
-            JOptionPane.showMessageDialog(null, "Usuário ou senha incorreto");
+            principal.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos");
         }
     }//GEN-LAST:event_btLoginActionPerformed
 
@@ -190,7 +209,7 @@ public class fmLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel laLogin;
     private javax.swing.JLabel laSenha;
-    private javax.swing.JTextField txtLogin;
     private javax.swing.JPasswordField txtSenha;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

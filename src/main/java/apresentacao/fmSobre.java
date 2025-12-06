@@ -6,7 +6,7 @@ package apresentacao;
 
 /**
  *
- * @author Administrator
+ * @author Eduarda de Oliveira
  */
 public class fmSobre extends javax.swing.JInternalFrame {
 

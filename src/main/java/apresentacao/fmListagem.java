@@ -40,6 +40,9 @@ public class fmListagem extends javax.swing.JInternalFrame {
         tbAlunos = new javax.swing.JTable();
         btExcluir = new javax.swing.JButton();
 
+        setClosable(true);
+
+        jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Buscar Aluno");
 
         txtBusca.addActionListener(new java.awt.event.ActionListener() {
@@ -66,6 +69,8 @@ public class fmListagem extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tbAlunos);
 
+        btExcluir.setBackground(new java.awt.Color(102, 102, 255));
+        btExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btExcluir.setText("Excluir Aluno");
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

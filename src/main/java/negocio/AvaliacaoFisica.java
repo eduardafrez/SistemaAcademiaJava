@@ -12,7 +12,6 @@ public class AvaliacaoFisica {
     private double gorduraCorporal; // % de gordura
     private double massaMuscular;
     private String observacoes; // Lesões, dores, objetivos
-    
     private Date dataAvaliacao;
     
     // Relacionamentos (Quem é o aluno e quem avaliou)
@@ -22,7 +21,30 @@ public class AvaliacaoFisica {
     public AvaliacaoFisica() {
     }
 
-    // --- GETTERS E SETTERS ---
+    public AvaliacaoFisica(double peso, double altura, double gorduraCorporal, double massaMuscular, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
+        this.peso = peso;
+        this.altura = altura;
+        this.gorduraCorporal = gorduraCorporal;
+        this.massaMuscular = massaMuscular;
+        this.observacoes = observacoes;
+        this.dataAvaliacao = dataAvaliacao;
+        this.idAluno = idAluno;
+        this.idInstrutor = idInstrutor;
+    }
+
+    public AvaliacaoFisica(int idAvaliacao, double peso, double altura, double gorduraCorporal, double massaMuscular, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
+        this.idAvaliacao = idAvaliacao;
+        this.peso = peso;
+        this.altura = altura;
+        this.gorduraCorporal = gorduraCorporal;
+        this.massaMuscular = massaMuscular;
+        this.observacoes = observacoes;
+        this.dataAvaliacao = dataAvaliacao;
+        this.idAluno = idAluno;
+        this.idInstrutor = idInstrutor;
+    }
+    
+   // --- GETTERS E SETTERS ---
     
     public int getIdAvaliacao() { return idAvaliacao; }
     public void setIdAvaliacao(int idAvaliacao) { this.idAvaliacao = idAvaliacao; }

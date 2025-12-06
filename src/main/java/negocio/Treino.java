@@ -1,21 +1,90 @@
 package negocio;
 
-public class ItemTreino {
-    private Exercicio exercicio;
-    private int series;
-    private int repeticoes;
-    private String carga; // Ex: "20kg"
+import java.util.Date;
 
-    // Construtor, Getters e Setters (Gere com Alt+Insert)
-    public Exercicio getExercicio() { return exercicio; }
-    public void setExercicio(Exercicio exercicio) { this.exercicio = exercicio; }
+public class Treino {
+    private int idTreino;
+    private int idAluno;
+    private int idFuncionario;    
+    private String descricaoTreino;
+    private Date dataInicio;
+    private Date dataFim;
 
-    public int getSeries() { return series; }
-    public void setSeries(int series) { this.series = series; }
+    //construtores
 
-    public int getRepeticoes() { return repeticoes; }
-    public void setRepeticoes(int repeticoes) { this.repeticoes = repeticoes; }
+    public Treino() {
+    }
+
+    public Treino(int idAluno, int idFuncionario, String descricaoTreino, Date dataInicio, Date dataFim) {
+        this.idAluno = idAluno;
+        this.idFuncionario = idFuncionario;
+        this.descricaoTreino = descricaoTreino;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+    }
+
+    public Treino(int idTreino, int idAluno, int idFuncionario, String descricaoTreino, Date dataInicio, Date dataFim) {
+        this.idTreino = idTreino;
+        this.idAluno = idAluno;
+        this.idFuncionario = idFuncionario;
+        this.descricaoTreino = descricaoTreino;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+    }
     
-    public String getCarga() { return carga; }
-    public void setCarga(String carga) { this.carga = carga; }
+    //getters e setters
+
+    public int getIdTreino() {
+        return idTreino;
+    }
+
+    public void setIdTreino(int idTreino) {
+        this.idTreino = idTreino;
+    }
+
+    public int getIdAluno() {
+        return idAluno;
+    }
+
+    public void setIdAluno(int idAluno) {
+        this.idAluno = idAluno;
+    }
+
+    public int getIdFuncionario() {
+        return idFuncionario;
+    }
+
+    public void setIdFuncionario(int idFuncionario) {
+        this.idFuncionario = idFuncionario;
+    }
+
+    public String getDescricaoTreino() {
+        return descricaoTreino;
+    }
+
+    public void setDescricaoTreino(String descricaoTreino) {
+        this.descricaoTreino = descricaoTreino;
+    }
+
+    public Date getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Date dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Date getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Date dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    @Override
+    public String toString() {
+        return "Treino{" + "idTreino=" + idTreino + ", idAluno=" + idAluno + ", idFuncionario=" + idFuncionario + ", descricaoTreino=" + descricaoTreino + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + '}';
+    }
+        
 }
