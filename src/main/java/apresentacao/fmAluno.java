@@ -9,11 +9,19 @@ import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.swing.JOptionPane;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ButtonGroup;
 import negocio.Aluno;
+import persistencia.AlunoDAO;
+import persistencia.IAlunoDAO;
 
 /**
  *
@@ -91,7 +99,7 @@ public class fmAluno extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel1.setText("Nome : ");
+        jLabel1.setText("Nome :");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +191,12 @@ public class fmAluno extends javax.swing.JInternalFrame {
         }
 
         jLabel8.setText("Email :");
+
+        txtEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtEmailActionPerformed(evt);
+            }
+        });
 
         rbFeminino.setText("Feminino");
 
@@ -361,34 +375,83 @@ public class fmAluno extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+    File arquivoFoto = null;
+    private String caminhoFotoPadrao = "C:/Users/Administrator/Documents/FotosAlunos/";
+    
+    private void copiarArquivo(File origem, File destino) throws IOException {
+        OutputStream out;
+        try (InputStream in = new FileInputStream(origem)) {
+            out = new FileOutputStream(destino);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        }
+        out.close();
+    }
 
+    private void habilitarCampos(boolean entrada) {
+        txtNome.setEnabled(entrada);
+        txtCPF.setEnabled(entrada);
+        txtTelefone.setEnabled(entrada);
+        txtDataNascimento.setEnabled(entrada);
+        txtEmail.setEnabled(entrada);
+        cbPlano.setEnabled(entrada);
+        txtEndereco.setEnabled(entrada);
+        rbMasculino.setEnabled(entrada);
+        rbFeminino.setEnabled(entrada);
+        rbOutro.setEnabled(entrada);
+        btUpload.setEnabled(entrada);
+    }
+
+    
     private void btUploadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUploadActionPerformed
-        // 1. Cria a janela de seleção de arquivo
         JFileChooser arquivo = new JFileChooser();
         arquivo.setDialogTitle("Selecione uma foto");
         arquivo.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
-        // 2. Abre a janela e espera o usuário escolher
+        // Filtro para imagens
+        arquivo.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) return true;
+                String nome = f.getName().toLowerCase();
+                return nome.endsWith(".jpg") || nome.endsWith(".jpeg") || 
+                       nome.endsWith(".png") || nome.endsWith(".gif");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Imagens (*.jpg, *.jpeg, *.png, *.gif)";
+            }
+        });
+
         int opc = arquivo.showOpenDialog(this);
 
-        // 3. Se ele escolheu um arquivo (clicou em OK/Abrir)
         if (opc == JFileChooser.APPROVE_OPTION) {
-            File file = arquivo.getSelectedFile(); // Pega o arquivo
-            caminhoFoto = file.getAbsolutePath(); // Guarda o caminho na variável global
+            arquivoFoto = arquivo.getSelectedFile();
 
-            // 4. Redimensiona a imagem para caber no quadradinho (lblFoto)
-            ImageIcon imagem = new ImageIcon(file.getPath());
-
-            // Pega o tamanho do seu Label (lblFoto)
+            // Redimensionar e mostrar
+            ImageIcon imagem = new ImageIcon(arquivoFoto.getPath());
             int largura = lbFoto.getWidth();
             int altura = lbFoto.getHeight();
 
-            // Lógica para ajustar o tamanho sem esticar demais
-            Image imgRedimensionada = imagem.getImage().getScaledInstance(largura, altura, Image.SCALE_SMOOTH);
+            if (largura <= 0 || altura <= 0) {
+                largura = 150;
+                altura = 150;
+            }
 
-            // 5. Mostra a imagem na tela
+            Image imgRedimensionada = imagem.getImage().getScaledInstance(
+                largura, altura, Image.SCALE_SMOOTH);
+
             ImageIcon iconeFinal = new ImageIcon(imgRedimensionada);
-           lbFoto.setIcon(iconeFinal);
+            lbFoto.setIcon(iconeFinal);
+
+            JOptionPane.showMessageDialog(this, 
+                "Foto carregada: " + arquivoFoto.getName(), 
+                "Sucesso", 
+                JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btUploadActionPerformed
 
@@ -397,38 +460,208 @@ public class fmAluno extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btNovoActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        // 1. Cria o objeto Aluno
-        Aluno objAluno = new Aluno();
-        objAluno.setEndereco(txtEndereco.getText());
+        // 1. VERIFICAÇÃO DE CAMPOS OBRIGATÓRIOS
+        String nome = txtNome.getText().trim();
+        String cpf = txtCPF.getText().trim().replaceAll("[^0-9]", "");
+        String telefone = txtTelefone.getText().trim();
+        String dataNasc = txtDataNascimento.getText().trim();
+        String email = txtEmail.getText().trim();
+        String endereco = txtEndereco.getText().trim();
 
-        // 2. Preenche o objeto com o que está na tela
-        objAluno.setNome(txtNome.getText());
-        objAluno.setCpf(txtCPF.getText());
-        objAluno.setTelefone(txtTelefone.getText());
-
-        // Pega o item selecionado no Combo Box
-        if (cbPlano.getSelectedItem() != null) {
-            objAluno.setPlano(cbPlano.getSelectedItem().toString());
+        // Validações básicas
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe o nome!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtNome.requestFocus();
+            return;
+        }
+        
+        if (cpf.length() != 11) {
+            JOptionPane.showMessageDialog(this, "CPF inválido! (11 dígitos)", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtCPF.requestFocus();
+            return;
+        }
+        
+        if (!telefoneValido(telefone)) {
+            JOptionPane.showMessageDialog(this, 
+                "Telefone inválido!\nUse o formato: (##) #####-####", 
+                "Aviso", 
+                JOptionPane.WARNING_MESSAGE);
+            txtTelefone.requestFocus();
+            return;
+        }
+        
+        if (dataNasc.length() != 10 || !dataNasc.matches("\\d{2}/\\d{2}/\\d{4}")) {
+            JOptionPane.showMessageDialog(this, 
+                "Formato de data inválido!\nUse: dd/mm/aaaa", 
+                "Aviso", 
+                JOptionPane.WARNING_MESSAGE);
+            txtDataNascimento.requestFocus();
+            return;
         }
 
-        // Lógica do Sexo
-        if (rbMasculino.isSelected()) {
-            objAluno.setSexo("M");
-        } else if (rbFeminino.isSelected()) {
-            objAluno.setSexo("F");
+        // 2. VALIDAÇÃO DA DATA DE NASCIMENTO COM SUAS FUNÇÕES
+
+
+        try {
+            // Extrair dia, mês e ano da string
+            String[] partes = dataNasc.split("/");
+            int dia = Integer.parseInt(partes[0]);
+            int mes = Integer.parseInt(partes[1]);
+            int ano = Integer.parseInt(partes[2]);
+
+            // Usar suas funções de validação
+            if (!dataNascimentoValida(dia, mes, ano)) {
+                JOptionPane.showMessageDialog(this, 
+                    "Data de nascimento inválida!\n" +
+                    "Verifique se:\n" +
+                    "- Dia está entre 1-31\n" +
+                    "- Mês está entre 1-12\n" +
+                    "- Ano entre 1900-2025\n" +
+                    "- Dia compatível com o mês", 
+                    "Data inválida", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtDataNascimento.requestFocus();
+                return;
+            }
+
+            // Verificar se é data futura (não pode nascer no futuro)
+            Calendar dataNascCal = Calendar.getInstance();
+            dataNascCal.set(ano, mes-1, dia); // mês-1 porque Calendar.JANUARY = 0
+            Calendar hoje = Calendar.getInstance();
+
+            if (dataNascCal.after(hoje)) {
+                JOptionPane.showMessageDialog(this, 
+                    "Data de nascimento não pode ser no futuro!", 
+                    "Data inválida", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtDataNascimento.requestFocus();
+                return;
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, 
+                "Data contém valores não numéricos!", 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            txtDataNascimento.requestFocus();
+            return;
+        }
+        
+        if (!emailValido(email)) {
+            JOptionPane.showMessageDialog(this, "Email inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtEmail.requestFocus();
+            return;
+        }
+        
+        if (endereco.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Informe o endereço", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtNome.requestFocus();
+            return;
         }
 
-        // Passa a foto
-        // OBS: Se der erro no setFoto, vá na classe Aluno e crie: private String foto; e os getters/setters
-         objAluno.setFoto(caminhoFoto);
 
-        // 3. Simulação de Salvar (Feedback visual)
-        JOptionPane.showMessageDialog(this, "Aluno montado com sucesso!\n" +
-            "Nome: " + objAluno.getNome() + "\n" +
-            "Plano: " + objAluno.getPlano());
+        if (!rbMasculino.isSelected() && !rbFeminino.isSelected() && !rbOutro.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Selecione o sexo!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-        // 4. Limpar a tela para o próximo
-        limpar();
+
+        
+        if (!fotoValida(arquivoFoto)) {
+            JOptionPane.showMessageDialog(this, 
+                "Selecione uma foto para o aluno!", 
+                "Foto obrigatória", 
+                JOptionPane.WARNING_MESSAGE);
+            btUpload.requestFocus();
+            return;
+        }
+        
+        int confirmacao = JOptionPane.showConfirmDialog(this, 
+            "Deseja salvar este aluno?", 
+            "Confirmar", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE);
+
+        if (confirmacao != JOptionPane.YES_OPTION) {
+            return;
+        }
+        
+        try {
+            // 6. CRIAR OBJETO ALUNO
+            Aluno aluno = new Aluno();
+            aluno.setNome(nome);
+            aluno.setCpf(cpf);
+            aluno.setTelefone(telefone);
+            aluno.setEmail(email);
+            aluno.setEndereco(endereco);
+            aluno.setPlano(cbPlano.getSelectedItem().toString());
+
+            // Sexo
+            if (rbMasculino.isSelected()) {
+                aluno.setSexo("M");
+            } else if (rbFeminino.isSelected()) {
+                aluno.setSexo("F");
+            } else {
+                aluno.setSexo("O");
+            }
+
+            aluno.setAtivo(true);
+
+            // Data de Nascimento (já validada acima)
+            String[] partes = dataNasc.split("/");
+            int dia = Integer.parseInt(partes[0]);
+            int mes = Integer.parseInt(partes[1]);
+            int ano = Integer.parseInt(partes[2]);
+
+            Calendar dataNascCal = Calendar.getInstance();
+            dataNascCal.set(ano, mes-1, dia);
+            aluno.setDataNascimento(dataNascCal.getTime());
+
+            // Data de Matrícula (data atual)
+            Calendar dataMatCal = Calendar.getInstance();
+            dataMatCal.setTime(new java.util.Date());
+            aluno.setDataMatricula(dataMatCal.getTime());
+
+            // 7. TRATAMENTO DA FOTO
+            String caminhoFotoFinal = "";
+            if (arquivoFoto != null && arquivoFoto.exists()) {
+                File pastaFotos = new File(caminhoFotoPadrao);
+                if (!pastaFotos.exists()) {
+                    pastaFotos.mkdirs();
+                }
+
+                String nomeArquivo = nome.replaceAll(" ", "_") + "_" + System.currentTimeMillis() + ".jpg";
+                File destinoFoto = new File(caminhoFotoPadrao + nomeArquivo);
+                copiarArquivo(arquivoFoto, destinoFoto);
+                caminhoFotoFinal = destinoFoto.getAbsolutePath();
+            }
+            aluno.setFoto(caminhoFotoFinal);
+
+            // 8. SALVAR NO BANCO
+            IAlunoDAO alunoDAO = new AlunoDAO();
+            alunoDAO.adiciona(aluno);
+
+            // 9. MENSAGEM DE SUCESSO
+            JOptionPane.showMessageDialog(this, 
+                "Aluno cadastrado com sucesso!\n" +
+                "Nome: " + aluno.getNome() + "\n" +
+                "CPF: " + aluno.getCpf() + "\n" +
+                "Data Nasc: " + dataNasc, 
+                "Sucesso", 
+                JOptionPane.INFORMATION_MESSAGE);
+
+            // 10. LIMPAR CAMPOS E DESABILITAR
+            limpar();
+            habilitarCampos(false);
+
+        } catch (Exception e) {
+            // 11. TRATAMENTO DE ERRO
+            JOptionPane.showMessageDialog(this, 
+                "Erro ao salvar aluno: " + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
@@ -442,9 +675,7 @@ public class fmAluno extends javax.swing.JInternalFrame {
         //definindo data de matricula como data atual
         DateFormat data = new SimpleDateFormat("dd/MM/yyyy");
         Date dataAtual = new Date();
-        laDataMatricula.setText(data.format(dataAtual));
-        
-        
+        laDataMatricula.setText(data.format(dataAtual));       
     }//GEN-LAST:event_formInternalFrameActivated
 
     private void rbMasculinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbMasculinoActionPerformed
@@ -462,6 +693,10 @@ public class fmAluno extends javax.swing.JInternalFrame {
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeActionPerformed
+
+    private void txtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtEmailActionPerformed
     private void configurarRadioButtons() {
         // Cria o ButtonGroup
         grupoSexo = new ButtonGroup();
@@ -483,6 +718,87 @@ public class fmAluno extends javax.swing.JInternalFrame {
         caminhoFoto = "";
         txtEndereco.setText("");
         grupoSexo.clearSelection();
+    }
+    
+    public static boolean emailValido(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+
+        // Regex simples e prÃ¡tica para verificar formato de e-mail
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
+        return email.matches(regex);
+    }
+        
+    public static boolean anoValido(int ano) {
+        return ano >= 1900 && ano <= 2025;
+    }
+
+    public static boolean mesValido(int mes) {
+        return mes >= 1 && mes <= 12;
+    }
+
+    public static boolean diaValido(int dia, int mes) {
+        if (!mesValido(mes)) {
+            return false;
+        }
+
+        if (dia < 1 || dia > 31) { // você falou 0 a 31, mas normalmente dia começa em 1
+            return false;
+        }
+
+        switch (mes) {
+            // meses com 31 dias
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return dia <= 31;
+
+            // meses com 30 dias
+            case 4: case 6: case 9: case 11:
+                return dia <= 30;
+
+            // fevereiro
+            case 2:
+                return dia <= 28;
+
+            default:
+                return false; // nunca deveria chegar aqui por causa do mesValido
+        }
+    }
+
+    public static boolean dataNascimentoValida(int dia, int mes, int ano) {
+        if (!anoValido(ano)) {
+            return false;
+        }
+
+        if (!mesValido(mes)) {
+            return false;
+        }
+
+        if (!diaValido(dia, mes)) {
+            return false;
+        }
+
+        return true;
+    }
+    public static boolean telefoneValido(String telefone) {
+        if (telefone == null) {
+            return false;
+        }
+
+        // remove tudo que não for dígito
+        String digitos = telefone.replaceAll("\\D", "");
+
+        // Com a máscara (##) #####-####, o correto são 11 dígitos
+        return digitos.length() == 11;
+    }
+    
+    public static boolean fotoValida(File arquivoFoto) {
+        // Foto obrigatória: precisa ter sido selecionada e existir
+        if (arquivoFoto == null) {
+            return false;
+        }
+        return arquivoFoto.exists() && arquivoFoto.isFile();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

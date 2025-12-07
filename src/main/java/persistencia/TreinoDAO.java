@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import negocio.Treino;
 
-/**
- *
- * @author Eduarda de Oliveira
- */
 public class TreinoDAO implements ITreinoDAO {
     private Connection connection;
 

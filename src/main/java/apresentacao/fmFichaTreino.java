@@ -200,6 +200,11 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             }
         });
 
+        txtSeries.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        txtRepeticoes.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
+        txtCarga.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
         txtCarga.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -312,40 +317,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
- // 1. VALIDAÇÃO: Verifica se a tabela tem pelo menos uma linha
-    if (tbTreino.getRowCount() == 0) {
-        javax.swing.JOptionPane.showMessageDialog(this, "A ficha está vazia! Adicione exercícios.");
-        return; // Para tudo e não salva nada
-    }
 
-    // 2. CABEÇALHO: Pega os donos da ficha
-    // (Seu amigo vai usar isso para fazer o INSERT na tabela 'Fichas')
-    Object alunoSelecionado = cbAluno.getSelectedItem();
-    Object instrutorSelecionado = cbFuncionario.getSelectedItem();
-    
-    // 3. ITENS: Percorre a tabela linha por linha (Loop For)
-    System.out.println("Salvando Ficha para: " + alunoSelecionado);
-    
-    for (int i = 0; i < tbTreino.getRowCount(); i++) {
-        // Pega os valores da linha 'i'
-        String exercicio = tbTreino.getValueAt(i, 0).toString();
-        String series = tbTreino.getValueAt(i, 1).toString();
-        String reps = tbTreino.getValueAt(i, 2).toString();
-        String carga = tbTreino.getValueAt(i, 3).toString();
-        
-        // (Aqui entraria o código do seu amigo chamando o DAO para salvar no banco)
-        System.out.println(" - Exercício: " + exercicio + " | " + series + "x" + reps);
-    }
-
-    // 4. FEEDBACK E LIMPEZA
-    javax.swing.JOptionPane.showMessageDialog(this, "Ficha de Treino salva com sucesso!");
-
-    // Limpa a tabela visualmente (reseta o modelo)
-    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tbTreino.getModel();
-    modelo.setNumRows(0); 
-    
-    // Reseta o aluno para o primeiro da lista ("Selecione...")
-    cbAluno.setSelectedIndex(0);
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void cbAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlunoActionPerformed
@@ -353,36 +325,11 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbAlunoActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        // 1. Pega os dados da tela
-    Object exercicio = cbExercicio.getSelectedItem();
-    String series = txtSeries.getValue().toString();
-    String repeticoes = txtRepeticoes.getValue().toString();
-    String carga = txtCarga.getValue().toString();
-    
-    // 2. Validação simples (Não deixa adicionar vazio)
-    if (series.isEmpty() || repeticoes.isEmpty()) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Preencha séries e repetições!");
-        return;
-    }
-
-    // 3. Adiciona na Tabela (tbTreino)
-    // Pega o "Modelo" da tabela para poder mexer nas linhas
-    javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tbTreino.getModel();
-    
-    // Adiciona uma nova linha com os 4 dados
-    modelo.addRow(new Object[]{ exercicio, series, repeticoes, carga });
-    
-    // 4. Limpa os campos para o próximo exercício
-    txtSeries.setValue(0);
-    txtRepeticoes.setValue(0);
-    txtCarga.setValue(0);
-    
-    // Devolve o cursor para o campo de séries
-    txtSeries.requestFocus();
+        
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        // TODO add your handling code here:
+        // TODO add your handling code here:      
         try {
             // ALUNOS
             IAlunoDAO alunoDAO = new AlunoDAO();
@@ -392,7 +339,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             modeloAluno.addElement("Aluno...");
 
             for (Aluno aluno : alunoDAO.listarTodos()) {
-                modeloAluno.addElement(String.format(aluno.getNome()));
+                modeloAluno.addElement(aluno.getNome());
             }
 
             cbAluno.setModel(modeloAluno);
@@ -417,10 +364,10 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             modeloExercicio.addElement("Exercicio...");
 
             for (Exercicio exercicio : exercicioDAO.listarTodos()) {
-                modeloAluno.addElement(String.format(exercicio.getNome()));
+                modeloExercicio.addElement(exercicio.getNome());
             }
             
-            cbExercicio.setModel(modeloFunc);
+            cbExercicio.setModel(modeloExercicio);
             cbExercicio.setSelectedIndex(0);
 
         } catch (Exception e) {

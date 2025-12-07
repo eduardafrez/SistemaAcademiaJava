@@ -22,8 +22,8 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
     
     @Override
     public void adiciona(AvaliacaoFisica avaliacao) {
-        String sql = "INSERT INTO AvaliacaoFisica (peso, altura, gorduraCorporal, massaMuscular, " +
-                    "observacoes, dataAvaliacao, idAluno, idInstrutor) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO AvaliacaoFisica (peso, altura, gorduraCorporal, " +
+                    "observacoes, dataAvaliacao, idAluno, idInstrutor) VALUES (?,?,?,?,?,?,?)";
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
@@ -33,7 +33,6 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
             stmt.setDouble(1, avaliacao.getPeso());
             stmt.setDouble(2, avaliacao.getAltura());
             stmt.setDouble(3, avaliacao.getGorduraCorporal());
-            stmt.setDouble(4, avaliacao.getMassaMuscular());
             stmt.setString(5, avaliacao.getObservacoes());
             stmt.setString(6, sdf.format(avaliacao.getDataAvaliacao()));
             stmt.setInt(7, avaliacao.getIdAluno());
@@ -49,7 +48,7 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
     @Override
     public void altera(AvaliacaoFisica avaliacao) {
         String sql = "UPDATE AvaliacaoFisica SET peso = ?, altura = ?, gorduraCorporal = ?, " +
-                    "massaMuscular = ?, observacoes = ?, dataAvaliacao = ?, idAluno = ?, " +
+                    "observacoes = ?, dataAvaliacao = ?, idAluno = ?, " +
                     "idInstrutor = ? WHERE idAvaliacao = ?";
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -58,7 +57,6 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
             stmt.setDouble(1, avaliacao.getPeso());
             stmt.setDouble(2, avaliacao.getAltura());
             stmt.setDouble(3, avaliacao.getGorduraCorporal());
-            stmt.setDouble(4, avaliacao.getMassaMuscular());
             stmt.setString(5, avaliacao.getObservacoes());
             stmt.setString(6, sdf.format(avaliacao.getDataAvaliacao()));
             stmt.setInt(7, avaliacao.getIdAluno());
@@ -95,7 +93,6 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
                 avaliacao.setPeso(rs.getDouble("peso"));
                 avaliacao.setAltura(rs.getDouble("altura"));
                 avaliacao.setGorduraCorporal(rs.getDouble("gorduraCorporal"));
-                avaliacao.setMassaMuscular(rs.getDouble("massaMuscular"));
                 avaliacao.setObservacoes(rs.getString("observacoes"));
                 avaliacao.setDataAvaliacao(rs.getDate("dataAvaliacao"));
                 avaliacao.setIdAluno(rs.getInt("idAluno"));
@@ -123,7 +120,6 @@ public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
                     avaliacao.setPeso(rs.getDouble("peso"));
                     avaliacao.setAltura(rs.getDouble("altura"));
                     avaliacao.setGorduraCorporal(rs.getDouble("gorduraCorporal"));
-                    avaliacao.setMassaMuscular(rs.getDouble("massaMuscular"));
                     avaliacao.setObservacoes(rs.getString("observacoes"));
                     avaliacao.setDataAvaliacao(rs.getDate("dataAvaliacao"));
                     avaliacao.setIdAluno(rs.getInt("idAluno"));

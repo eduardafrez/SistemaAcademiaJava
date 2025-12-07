@@ -10,7 +10,6 @@ public class AvaliacaoFisica {
     private double peso;
     private double altura;
     private double gorduraCorporal; // % de gordura
-    private double massaMuscular;
     private String observacoes; // Lesões, dores, objetivos
     private Date dataAvaliacao;
     
@@ -21,23 +20,21 @@ public class AvaliacaoFisica {
     public AvaliacaoFisica() {
     }
 
-    public AvaliacaoFisica(double peso, double altura, double gorduraCorporal, double massaMuscular, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
+    public AvaliacaoFisica(double peso, double altura, double gorduraCorporal, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
         this.peso = peso;
         this.altura = altura;
         this.gorduraCorporal = gorduraCorporal;
-        this.massaMuscular = massaMuscular;
         this.observacoes = observacoes;
         this.dataAvaliacao = dataAvaliacao;
         this.idAluno = idAluno;
         this.idInstrutor = idInstrutor;
     }
 
-    public AvaliacaoFisica(int idAvaliacao, double peso, double altura, double gorduraCorporal, double massaMuscular, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
+    public AvaliacaoFisica(int idAvaliacao, double peso, double altura, double gorduraCorporal, String observacoes, Date dataAvaliacao, int idAluno, int idInstrutor) {
         this.idAvaliacao = idAvaliacao;
         this.peso = peso;
         this.altura = altura;
         this.gorduraCorporal = gorduraCorporal;
-        this.massaMuscular = massaMuscular;
         this.observacoes = observacoes;
         this.dataAvaliacao = dataAvaliacao;
         this.idAluno = idAluno;
@@ -58,9 +55,6 @@ public class AvaliacaoFisica {
     public double getGorduraCorporal() { return gorduraCorporal; }
     public void setGorduraCorporal(double gorduraCorporal) { this.gorduraCorporal = gorduraCorporal; }
     
-    public double getMassaMuscular() { return massaMuscular; }
-    public void setMassaMuscular(double massaMuscular) { this.massaMuscular = massaMuscular; }
-
     public String getObservacoes() { return observacoes; }
     public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 

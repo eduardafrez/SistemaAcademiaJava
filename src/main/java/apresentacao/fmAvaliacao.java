@@ -4,6 +4,21 @@
  */
 package apresentacao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import negocio.Aluno;
+import negocio.AvaliacaoFisica;
+import negocio.Funcionario;
+import persistencia.AlunoDAO;
+import persistencia.AvaliacaoFisicaDAO;
+import persistencia.FuncionarioDAO;
+import persistencia.IAlunoDAO;
+import persistencia.IAvaliacaoFisicaDAO;
+import persistencia.IFuncionarioDAO;
+
 /**
  *
  * @author giuli
@@ -22,9 +37,9 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
     cbAluno.addItem("Maria Oliveira");
     cbAluno.addItem("Pedro Santos");
 
-    cbInstrutor.removeAllItems();
-    cbInstrutor.addItem("Instrutor Padrão");
-    cbInstrutor.addItem("Personal Trainer X");
+    cbFuncionario.removeAllItems();
+    cbFuncionario.addItem("Instrutor Padrão");
+    cbFuncionario.addItem("Personal Trainer X");
     this.setSize(700, 600);
     }
 
@@ -41,7 +56,8 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         cbAluno = new javax.swing.JComboBox<>();
-        cbInstrutor = new javax.swing.JComboBox<>();
+        cbFuncionario = new javax.swing.JComboBox<>();
+        laData = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtPeso = new javax.swing.JTextField();
@@ -58,9 +74,24 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
 
         setBackground(new java.awt.Color(255, 0, 204));
         setClosable(true);
-        setResizable(true);
         setTitle("Nota Avaliação Física");
-        setPreferredSize(new java.awt.Dimension(700, 600));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Identificação", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 153, 153))); // NOI18N
 
@@ -70,7 +101,9 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
 
         cbAluno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cbInstrutor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbFuncionario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        laData.setText("##/##/####");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -78,28 +111,33 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(cbAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cbAluno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbInstrutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(laData)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cbAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(cbAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(laData))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cbInstrutor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -206,9 +244,9 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(btSalvar)
@@ -276,44 +314,159 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btCalcularIMCActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        // 1. Validação básica: Verifica se escolheu um aluno (o índice 0 é o "Selecione...")
-    if (cbAluno.getSelectedIndex() == 0) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Por favor, selecione um aluno!");
-        return; // Para o código aqui e não salva nada
-    }
+        try {
+            // 1. VALIDAÇÃO BÁSICA
+            if (cbAluno.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Selecione um aluno!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-    try {
-        // 2. Cria o objeto de negócio
-        negocio.AvaliacaoFisica objAvaliacao = new negocio.AvaliacaoFisica();
-        
-        // 3. Preenche os dados (Convertendo texto para número)
-        // O replace(",", ".") ajuda se o usuário digitar 70,5 ao invés de 70.5
-        double peso = Double.parseDouble(txtPeso.getText().replace(",", "."));
-        double altura = Double.parseDouble(txtAltura.getText().replace(",", "."));
-        double gordura = Double.parseDouble(txtGordura.getText().replace(",", "."));
-        
-        objAvaliacao.setPeso(peso);
-        objAvaliacao.setAltura(altura);
-        objAvaliacao.setGorduraCorporal(gordura);
-        
-        // Pega o texto das observações
-        objAvaliacao.setObservacoes(txtObservacoes.getText());
-        
-        // Define a data de hoje automaticamente
-        objAvaliacao.setDataAvaliacao(new java.util.Date());
-        
-        // 4. Simula o salvamento (Aqui seu amigo conectará o DAO)
-        javax.swing.JOptionPane.showMessageDialog(this, "Avaliação Registrada com Sucesso!\n" +
-                "Aluno: " + cbAluno.getSelectedItem() + "\n" +
-                "Data: " + objAvaliacao.getDataAvaliacao());
-        
-        // 5. Fecha a janela após salvar
-        this.dispose();
-        
-    } catch (NumberFormatException e) {
-        // Se digitar letras no lugar de números
-        javax.swing.JOptionPane.showMessageDialog(this, "Verifique os campos numéricos (Peso, Altura, Gordura).");
-    }
+            if (cbFuncionario.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Selecione um instrutor!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. PEGAR VALORES
+            String strPeso = txtPeso.getText().trim().replace(",", ".");
+            String strAltura = txtAltura.getText().trim().replace(",", ".");
+            String strGordura = txtGordura.getText().trim().replace(",", ".");
+            String observacoes = txtObservacoes.getText().trim();
+
+            // 3. CONVERTER E VALIDAR LIMITES
+            double peso, altura, gordura = 0;
+
+            try {
+                // Peso: 0.1 a 300 kg
+                peso = Double.parseDouble(strPeso);
+                if (peso < 0.1 || peso > 300) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Peso inválido! (0.1 a 300 kg)", 
+                        "Valor fora do limite", 
+                        JOptionPane.WARNING_MESSAGE);
+                    txtPeso.requestFocus();
+                    return;
+                }
+                
+                // Altura: 0.5 a 3.0 metros
+                altura = Double.parseDouble(strAltura);
+                if (altura < 0.5 || altura > 3.0) {
+                    JOptionPane.showMessageDialog(this, 
+                        "Altura inválida! (0.5 a 3.0 metros)", 
+                        "Valor fora do limite", 
+                        JOptionPane.WARNING_MESSAGE);
+                    txtAltura.requestFocus();
+                    return;
+                }
+                
+                // Gordura: 0 a 100% (opcional)
+                if (!strGordura.isEmpty()) {
+                    gordura = Double.parseDouble(strGordura);
+                    if (gordura < 0 || gordura > 100) {
+                        JOptionPane.showMessageDialog(this, 
+                            "Gordura corporal inválida! (0 a 100%)", 
+                            "Valor fora do limite", 
+                            JOptionPane.WARNING_MESSAGE);
+                        txtGordura.requestFocus();
+                        return;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Digite apenas números nos campos!\n" +
+                    "Use ponto ou vírgula para decimais.\n" +
+                    "Ex: 70.5 ou 70,5", 
+                    "Formato inválido", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 4. EXTRAIR IDs
+            int idAluno = extrairIdDoCombo(cbAluno);
+            int idInstrutor = extrairIdDoCombo(cbFuncionario);
+
+            if (idAluno <= 0 || idInstrutor <= 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "IDs inválidos!\nAluno: " + idAluno + "\nInstrutor: " + idInstrutor, 
+                    "Erro", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 5. CONFIRMAÇÃO
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "Salvar avaliação física?\n\n" +
+                "Aluno ID: " + idAluno + "\n" +
+                "Instrutor ID: " + idInstrutor + "\n" +
+                "Peso: " + peso + " kg\n" +
+                "Altura: " + altura + " m", 
+                "Confirmar", 
+                JOptionPane.YES_NO_OPTION);
+
+            if (confirm != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+            // 6. CRIAR OBJETO
+            negocio.AvaliacaoFisica avaliacao = new negocio.AvaliacaoFisica();
+            avaliacao.setPeso(peso);
+            avaliacao.setAltura(altura);
+            avaliacao.setGorduraCorporal(gordura);
+            avaliacao.setObservacoes(observacoes);
+            avaliacao.setDataAvaliacao(new java.util.Date());
+            avaliacao.setIdAluno(idAluno);
+            avaliacao.setIdInstrutor(idInstrutor);
+
+            // 7. SALVAR NO BANCO
+            IAvaliacaoFisicaDAO dao = new AvaliacaoFisicaDAO();
+            dao.adiciona(avaliacao);
+
+            // 8. MENSAGEM DE SUCESSO
+            JOptionPane.showMessageDialog(this, 
+                "✅ Avaliação salva com sucesso!\n\n" +
+                "📋 Resumo:\n" +
+                "• Aluno ID: " + idAluno + "\n" +
+                "• Instrutor ID: " + idInstrutor + "\n" +
+                "• Peso: " + String.format("%.1f", peso) + " kg\n" +
+                "• Altura: " + String.format("%.2f", altura) + " m\n" +
+                "• Gordura: " + (gordura > 0 ? String.format("%.1f", gordura) + "%" : "Não informado") + "\n" +
+                "• Data: " + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), 
+                "Sucesso", 
+                JOptionPane.INFORMATION_MESSAGE);
+
+            // 9. LIMPAR CAMPOS
+            limparCampos();
+
+        } catch (Exception e) {
+            // TRATAMENTO ESPECÍFICO PARA "OUT OF RANGE"
+            String mensagemErro = "❌ Erro ao salvar!\n";
+            
+            if (e.getMessage() != null) {
+                if (e.getMessage().contains("out of range") || 
+                    e.getMessage().contains("Data truncation") ||
+                    e.getMessage().contains("value too large")) {
+                    mensagemErro += "\n👉 VALOR FORA DOS LIMITES PERMITIDOS!\n\n" +
+                                  "Limites do banco:\n" +
+                                  "• Peso: até 999.99 kg\n" +
+                                  "• Altura: até 9.99 metros\n" +
+                                  "• Gordura: até 100%\n\n" +
+                                  "Ajuste os valores e tente novamente.";
+                } else if (e.getMessage().contains("foreign key constraint")) {
+                    mensagemErro += "\n👉 ALUNO OU INSTRUTOR NÃO EXISTE!\n\n" +
+                                  "Verifique se os IDs selecionados existem no banco.";
+                } else {
+                    mensagemErro += "\nDetalhe: " + e.getMessage();
+                }
+            }
+            
+            JOptionPane.showMessageDialog(this, 
+                mensagemErro, 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            
+            // Log para debug
+            System.err.println("ERRO AO SALVAR AVALIAÇÃO:");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
@@ -321,13 +474,94 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
         this.dispose();
     }//GEN-LAST:event_btSairActionPerformed
 
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        // TODO add your handling code here:
+        DateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataAtual = new Date();
+        laData.setText(data.format(dataAtual));    
+        try {
+            // ALUNOS
+            IAlunoDAO alunoDAO = new AlunoDAO();
+            DefaultComboBoxModel modeloAluno = new DefaultComboBoxModel();
+
+            // Adiciona opção padrão
+            modeloAluno.addElement("Id Aluno    ");
+
+            for (Aluno aluno : alunoDAO.listarTodos()) {
+                modeloAluno.addElement(aluno.getIdAluno());
+            }
+
+            cbAluno.setModel(modeloAluno);
+            cbAluno.setSelectedIndex(0); // Seleciona a primeira opção
+
+            IFuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+            DefaultComboBoxModel modeloFunc = new DefaultComboBoxModel();
+
+            modeloFunc.addElement("Id Funcionario");
+
+            for (Funcionario func : funcionarioDAO.listarTodos()) {
+                modeloFunc.addElement(func.getIdFuncionario());
+            }
+
+            cbFuncionario.setModel(modeloFunc);
+            cbFuncionario.setSelectedIndex(0);
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erro ao carregar dados: " + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formInternalFrameActivated
+    private int extrairIdDoCombo(javax.swing.JComboBox<String> combo) {
+        Object itemSelecionado = combo.getSelectedItem();
+        if (itemSelecionado == null) {
+            return 0;
+        }
+
+        String texto = itemSelecionado.toString().trim();
+
+        // Se o combo mostra apenas o ID
+        try {
+            return Integer.parseInt(texto);
+        } catch (NumberFormatException e) {
+            // Se o combo mostra "ID - Nome", extrai o ID
+            if (texto.contains("-")) {
+                try {
+                    String[] partes = texto.split("-");
+                    return Integer.parseInt(partes[0].trim());
+                } catch (Exception ex) {
+                    return 0;
+                }
+            }
+            return 0;
+        }
+    }
+
+    private void limparCampos() {
+        txtPeso.setText("");
+        txtAltura.setText("");
+        txtGordura.setText("");
+        txtObservacoes.setText("");
+        lblResultadoIMC.setText("");
+
+        // Volta para a primeira opção (selecionar...)
+        if (cbAluno.getItemCount() > 0) {
+            cbAluno.setSelectedIndex(0);
+        }
+        if (cbFuncionario.getItemCount() > 0) {
+            cbFuncionario.setSelectedIndex(0);
+        }
+
+        txtPeso.requestFocus();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCalcularIMC;
     private javax.swing.JButton btSair;
     private javax.swing.JButton btSalvar;
     private javax.swing.JComboBox<String> cbAluno;
-    private javax.swing.JComboBox<String> cbInstrutor;
+    private javax.swing.JComboBox<String> cbFuncionario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -336,6 +570,7 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel laData;
     private javax.swing.JLabel lblResultadoIMC;
     private javax.swing.JTextField txtAltura;
     private javax.swing.JTextField txtGordura;
