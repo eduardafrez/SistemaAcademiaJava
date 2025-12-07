@@ -3,7 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
  */
 package apresentacao;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import negocio.Aluno;
+import persistencia.AlunoDAO;
+import persistencia.IAlunoDAO;
 
 /**
  *
@@ -16,13 +22,7 @@ public class fmListagem extends javax.swing.JInternalFrame {
      */
     public fmListagem() {
         initComponents();
-        // Configura o modelo da tabela
-    DefaultTableModel modelo = (DefaultTableModel) tbAlunos.getModel();
-    
-    // Adiciona linhas falsas para testar
-    modelo.addRow(new Object[]{"Ana Clara", "123.456.789-00", "(11) 99999-0000", "Mensal"});
-    modelo.addRow(new Object[]{"Bruno Souza", "111.222.333-44", "(21) 98888-1111", "Anual"});
-    modelo.addRow(new Object[]{"Carlos Lima", "555.666.777-88", "(31) 97777-2222", "Trimestral"});
+        carregarTodosAlunos();
     }
 
     /**
@@ -35,28 +35,35 @@ public class fmListagem extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtBusca = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbAlunos = new javax.swing.JTable();
+        jtAlunos = new javax.swing.JTable();
         btExcluir = new javax.swing.JButton();
+        txtBuscaNome = new javax.swing.JTextField();
+        btBuscar = new javax.swing.JButton();
 
         setClosable(true);
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(0, 153, 153));
         jLabel1.setText("Buscar Aluno");
 
-        txtBusca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBuscaActionPerformed(evt);
-            }
-        });
-        txtBusca.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscaKeyReleased(evt);
-            }
-        });
-
-        tbAlunos.setModel(new javax.swing.table.DefaultTableModel(
+        jtAlunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -67,7 +74,7 @@ public class fmListagem extends javax.swing.JInternalFrame {
                 "Nome", "CPF", "Telefone", "Plano"
             }
         ));
-        jScrollPane1.setViewportView(tbAlunos);
+        jScrollPane1.setViewportView(jtAlunos);
 
         btExcluir.setBackground(new java.awt.Color(102, 102, 255));
         btExcluir.setForeground(new java.awt.Color(255, 255, 255));
@@ -75,6 +82,13 @@ public class fmListagem extends javax.swing.JInternalFrame {
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btExcluirActionPerformed(evt);
+            }
+        });
+
+        btBuscar.setText("Buscar");
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
             }
         });
 
@@ -88,7 +102,9 @@ public class fmListagem extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtBuscaNome, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btBuscar))
                     .addComponent(btExcluir)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -99,74 +115,188 @@ public class fmListagem extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtBuscaNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btExcluir)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBuscaActionPerformed
-
-    private void txtBuscaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscaKeyReleased
-        // 1. Pega o que foi digitado
-    String chave = txtBusca.getText().toLowerCase();
-    
-    // 2. Pega o modelo da tabela para mexer nele
-    DefaultTableModel modelo = (DefaultTableModel) tbAlunos.getModel();
-    modelo.setNumRows(0); // Limpa a tabela toda
-    
-    // 3. Recria os dados falsos (Simulando o Banco de Dados)
-    // O seu amigo fará isso vir do SQL depois
-    String[][] dadosFake = {
-        {"Ana Clara", "123.456.789-00", "(11) 99999-0000", "Mensal"},
-        {"Bruno Souza", "111.222.333-44", "(21) 98888-1111", "Anual"},
-        {"Carlos Lima", "555.666.777-88", "(31) 97777-2222", "Trimestral"}
-    };
-    
-    // 4. Adiciona de volta SÓ o que combina com o texto
-    for (String[] aluno : dadosFake) {
-        // Se o nome (posição 0) contém o que foi digitado...
-        if (aluno[0].toLowerCase().contains(chave)) {
-            modelo.addRow(aluno);
-        }
-    }
-    }//GEN-LAST:event_txtBuscaKeyReleased
-
     private void btExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcluirActionPerformed
-        // 1. Verifica se tem alguma linha selecionada na tabela
-    int linhaSelecionada = tbAlunos.getSelectedRow();
-    
-    if (linhaSelecionada == -1) {
-        javax.swing.JOptionPane.showMessageDialog(this, "Selecione um aluno na tabela para excluir!");
-        return;
-    }
-
-    // 2. Confirmação (Segurança)
-    int opcao = javax.swing.JOptionPane.showConfirmDialog(this, "Tem certeza que deseja excluir?", "Atenção", javax.swing.JOptionPane.YES_NO_OPTION);
-    
-    if (opcao == javax.swing.JOptionPane.YES_OPTION) {
-        // 3. Remove a linha da tabela (Visualmente)
-        // Obs: Seu amigo do banco vai colocar o código SQL aqui depois
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel) tbAlunos.getModel();
-        modelo.removeRow(linhaSelecionada);
+        int linhaSelecionada = jtAlunos.getSelectedRow();
         
-        javax.swing.JOptionPane.showMessageDialog(this, "Aluno removido com sucesso!");
-    }
+        if (linhaSelecionada == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Selecione um aluno para excluir.", 
+                "Aviso", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        DefaultTableModel model = (DefaultTableModel) jtAlunos.getModel();
+        int idAluno = Integer.parseInt(model.getValueAt(linhaSelecionada, 0).toString());
+        String nomeAluno = model.getValueAt(linhaSelecionada, 1).toString();
+        
+        int confirmacao = JOptionPane.showConfirmDialog(this,
+            "Tem certeza que deseja excluir o aluno:\n" + nomeAluno + "?",
+            "Confirmar Exclusão",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE);
+        
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            try {
+                IAlunoDAO dao = new AlunoDAO();
+                dao.remove(idAluno);
+                
+                JOptionPane.showMessageDialog(this,
+                    "Aluno excluído com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                carregarTodosAlunos();
+                
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this,
+                    "Erro ao excluir aluno: " + e.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_btExcluirActionPerformed
 
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        // TODO add your handling code here:
+        if (txtBuscaNome.getText().trim().isEmpty()) {
+            carregarTodosAlunos();
+        }
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        // TODO add your handling code here:
+        realizarBusca();
+    }//GEN-LAST:event_btBuscarActionPerformed
+    private void carregarTodosAlunos() {
+        System.out.println("DEBUG: Carregando todos os alunos...");
+        
+        try {
+            IAlunoDAO dao = new AlunoDAO();
+            List<Aluno> alunos = dao.listarTodos();
+            
+            System.out.println("DEBUG: " + alunos.size() + " alunos encontrados");
+            
+            atualizarTabela(alunos);
+            
+        } catch (Exception e) {
+            System.err.println("ERRO ao carregar alunos: " + e.getMessage());
+            e.printStackTrace();
+            
+            JOptionPane.showMessageDialog(this,
+                "Erro ao carregar alunos:\n" + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void atualizarTabela(List<Aluno> alunos) {
+        System.out.println("DEBUG: Atualizando tabela com " + alunos.size() + " alunos");
+        
+
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("ID");
+        model.addColumn("Nome");
+        model.addColumn("CPF");
+        model.addColumn("Telefone");
+        model.addColumn("Plano");
+        model.addColumn("Status");
+        
+
+        for (Aluno aluno : alunos) {
+            String status = aluno.isAtivo() ? "Ativo" : "Inativo";
+            model.addRow(new Object[]{
+                aluno.getIdAluno(),
+                aluno.getNome(),
+                aluno.getCpf(),
+                aluno.getTelefone(),
+                aluno.getPlano(),
+                status
+            });
+        }
+
+        jtAlunos.setModel(model);
+        
+        System.out.println("DEBUG: Modelo aplicado. " + model.getRowCount() + " linhas na tabela");
+        
+
+        ajustarLarguraColunas();
+    }
+
+    private void realizarBusca() {
+        String nome = txtBuscaNome.getText().trim();
+        
+        if (nome.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Digite um nome para buscar.", 
+                "Aviso", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        System.out.println("DEBUG: Buscando por: " + nome);
+        
+        try {
+            IAlunoDAO dao = new AlunoDAO();
+            List<Aluno> alunos = dao.listarPorNome(nome);
+            
+            if (alunos.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                    "Nenhum aluno encontrado com: " + nome, 
+                    "Busca", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                System.out.println("DEBUG: " + alunos.size() + " alunos encontrados na busca");
+                atualizarTabela(alunos);
+            }
+            
+        } catch (Exception e) {
+            System.err.println("ERRO na busca: " + e.getMessage());
+            e.printStackTrace();
+            
+            JOptionPane.showMessageDialog(this,
+                "Erro na busca: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void ajustarLarguraColunas() {
+        if (jtAlunos.getColumnCount() > 0) {
+            jtAlunos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+            
+            // Ajustar cada coluna
+            jtAlunos.getColumnModel().getColumn(0).setPreferredWidth(40);   // ID
+            jtAlunos.getColumnModel().getColumn(1).setPreferredWidth(200);  // Nome
+            jtAlunos.getColumnModel().getColumn(2).setPreferredWidth(130);  // CPF
+            jtAlunos.getColumnModel().getColumn(3).setPreferredWidth(120);  // Telefone
+            jtAlunos.getColumnModel().getColumn(4).setPreferredWidth(80);   // Plano
+            jtAlunos.getColumnModel().getColumn(5).setPreferredWidth(60);   // Status
+            
+            System.out.println("DEBUG: Colunas ajustadas: " + jtAlunos.getColumnCount() + " colunas");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btExcluir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbAlunos;
-    private javax.swing.JTextField txtBusca;
+    private javax.swing.JTable jtAlunos;
+    private javax.swing.JTextField txtBuscaNome;
     // End of variables declaration//GEN-END:variables
 }

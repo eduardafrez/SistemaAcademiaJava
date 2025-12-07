@@ -162,4 +162,47 @@ public class AlunoDAO implements IAlunoDAO{
         }
         return null;
     }
+    @Override
+    public List<Aluno> listarPorNome(String nome) {
+        try {
+            List<Aluno> alunos = new ArrayList<>();
+            PreparedStatement stmt = this.connection.prepareStatement(
+                "SELECT * FROM Alunos WHERE nome LIKE ? ORDER BY nome"
+            );
+            stmt.setString(1, "%" + nome + "%"); // Permite buscas parciais
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Aluno aluno = new Aluno();
+                aluno.setIdAluno(rs.getInt("idAluno"));
+                aluno.setNome(rs.getString("nome"));
+                aluno.setCpf(rs.getString("cpf"));
+                aluno.setTelefone(rs.getString("telefone"));
+                aluno.setEmail(rs.getString("email"));
+
+                Calendar dataNasc = Calendar.getInstance();
+                dataNasc.setTime(rs.getDate("dataNascimento"));
+                aluno.setDataNascimento(dataNasc.getTime());
+
+                aluno.setSexo(rs.getString("sexo"));
+                aluno.setPlano(rs.getString("plano"));
+                aluno.setAtivo(rs.getBoolean("ativo"));
+                aluno.setEndereco(rs.getString("endereco"));
+                aluno.setFoto(rs.getString("foto"));
+
+                Calendar dataMat = Calendar.getInstance();
+                dataMat.setTime(rs.getDate("dataMatricula"));
+                aluno.setDataMatricula(dataMat.getTime());
+
+                alunos.add(aluno);
+            }
+
+            rs.close();
+            stmt.close();
+            return alunos;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar alunos por nome: " + e.getMessage());
+        }
+    }
 }

@@ -18,4 +18,5 @@ public interface IAlunoDAO {
     public void remove(int id);
     public List<Aluno> listarTodos();
     public Aluno getByID(int id);
+    public List<Aluno> listarPorNome(String nome);
 }

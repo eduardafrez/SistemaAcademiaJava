@@ -312,7 +312,7 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btCalcularIMCActionPerformed
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        try {
+            try {
             // 1. VALIDAÇÃO BÁSICA
             if (cbAluno.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(this, "Selecione um aluno!", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -324,61 +324,46 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 2. PEGAR VALORES
-            String strPeso = txtPeso.getText().trim().replace(",", ".");
-            String strAltura = txtAltura.getText().trim().replace(",", ".");
-            String strGordura = txtGordura.getText().trim().replace(",", ".");
+            // 2. PEGAR VALORES COM MÁSCARA E CONVERTER
+            String pesoComMascara = txtPeso.getText().trim();    // Ex: "070,50"
+            String alturaComMascara = txtAltura.getText().trim(); // Ex: "1,75"
+            String gorduraComMascara = txtGordura.getText().trim(); // Ex: "025%"
             String observacoes = txtObservacoes.getText().trim();
 
-            // 3. CONVERTER E VALIDAR LIMITES
-            double peso, altura, gordura = 0;
+            // 3. REMOVER MÁSCARA E CONVERTER
+            double peso = removerMascaraConverter(pesoComMascara);
+            double altura = removerMascaraConverter(alturaComMascara);
+            double gordura = removerMascaraConverter(gorduraComMascara);
 
-            try {
-                // Peso: 0.1 a 300 kg
-                peso = Double.parseDouble(strPeso);
-                if (peso < 0.1 || peso > 300) {
-                    JOptionPane.showMessageDialog(this, 
-                        "Peso inválido! (0.1 a 300 kg)", 
-                        "Valor fora do limite", 
-                        JOptionPane.WARNING_MESSAGE);
-                    txtPeso.requestFocus();
-                    return;
-                }
-                
-                // Altura: 0.5 a 3.0 metros
-                altura = Double.parseDouble(strAltura);
-                if (altura < 0.5 || altura > 3.0) {
-                    JOptionPane.showMessageDialog(this, 
-                        "Altura inválida! (0.5 a 3.0 metros)", 
-                        "Valor fora do limite", 
-                        JOptionPane.WARNING_MESSAGE);
-                    txtAltura.requestFocus();
-                    return;
-                }
-                
-                // Gordura: 0 a 100% (opcional)
-                if (!strGordura.isEmpty()) {
-                    gordura = Double.parseDouble(strGordura);
-                    if (gordura < 0 || gordura > 100) {
-                        JOptionPane.showMessageDialog(this, 
-                            "Gordura corporal inválida! (0 a 100%)", 
-                            "Valor fora do limite", 
-                            JOptionPane.WARNING_MESSAGE);
-                        txtGordura.requestFocus();
-                        return;
-                    }
-                }
-            } catch (NumberFormatException e) {
+            // 4. VALIDAR LIMITES
+            if (peso < 0.1 || peso > 300) {
                 JOptionPane.showMessageDialog(this, 
-                    "Digite apenas números nos campos!\n" +
-                    "Use ponto ou vírgula para decimais.\n" +
-                    "Ex: 70.5 ou 70,5", 
-                    "Formato inválido", 
-                    JOptionPane.ERROR_MESSAGE);
+                    "Peso inválido! (0.1 a 300 kg)\nValor digitado: " + pesoComMascara, 
+                    "Valor fora do limite", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtPeso.requestFocus();
                 return;
             }
 
-            // 4. EXTRAIR IDs
+            if (altura < 0.5 || altura > 3.0) {
+                JOptionPane.showMessageDialog(this, 
+                    "Altura inválida! (0.5 a 3.0 metros)\nValor digitado: " + alturaComMascara, 
+                    "Valor fora do limite", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtAltura.requestFocus();
+                return;
+            }
+
+            if (gordura < 0 || gordura > 100) {
+                JOptionPane.showMessageDialog(this, 
+                    "Gordura corporal inválida! (0 a 100%)\nValor digitado: " + gorduraComMascara, 
+                    "Valor fora do limite", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtGordura.requestFocus();
+                return;
+            }
+
+            // 5. EXTRAIR IDs
             int idAluno = extrairIdDoCombo(cbAluno);
             int idInstrutor = extrairIdDoCombo(cbFuncionario);
 
@@ -390,13 +375,14 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 5. CONFIRMAÇÃO
+            // 6. CONFIRMAÇÃO
             int confirm = JOptionPane.showConfirmDialog(this, 
                 "Salvar avaliação física?\n\n" +
                 "Aluno ID: " + idAluno + "\n" +
                 "Instrutor ID: " + idInstrutor + "\n" +
                 "Peso: " + peso + " kg\n" +
-                "Altura: " + altura + " m", 
+                "Altura: " + altura + " m\n" +
+                "Gordura: " + gordura + "%", 
                 "Confirmar", 
                 JOptionPane.YES_NO_OPTION);
 
@@ -404,7 +390,7 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 6. CRIAR OBJETO
+            // 7. CRIAR OBJETO
             negocio.AvaliacaoFisica avaliacao = new negocio.AvaliacaoFisica();
             avaliacao.setPeso(peso);
             avaliacao.setAltura(altura);
@@ -414,11 +400,11 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
             avaliacao.setIdAluno(idAluno);
             avaliacao.setIdInstrutor(idInstrutor);
 
-            // 7. SALVAR NO BANCO
+            // 8. SALVAR NO BANCO
             IAvaliacaoFisicaDAO dao = new AvaliacaoFisicaDAO();
             dao.adiciona(avaliacao);
 
-            // 8. MENSAGEM DE SUCESSO
+            // 9. MENSAGEM DE SUCESSO
             JOptionPane.showMessageDialog(this, 
                 "✅ Avaliação salva com sucesso!\n\n" +
                 "📋 Resumo:\n" +
@@ -426,43 +412,33 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                 "• Instrutor ID: " + idInstrutor + "\n" +
                 "• Peso: " + String.format("%.1f", peso) + " kg\n" +
                 "• Altura: " + String.format("%.2f", altura) + " m\n" +
-                "• Gordura: " + (gordura > 0 ? String.format("%.1f", gordura) + "%" : "Não informado") + "\n" +
+                "• Gordura: " + String.format("%.1f", gordura) + "%\n" +
                 "• Data: " + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date()), 
                 "Sucesso", 
                 JOptionPane.INFORMATION_MESSAGE);
 
-            // 9. LIMPAR CAMPOS
+            // 10. LIMPAR CAMPOS
             limparCampos();
 
         } catch (Exception e) {
-            // TRATAMENTO ESPECÍFICO PARA "OUT OF RANGE"
             String mensagemErro = "❌ Erro ao salvar!\n";
-            
-            if (e.getMessage() != null) {
-                if (e.getMessage().contains("out of range") || 
-                    e.getMessage().contains("Data truncation") ||
-                    e.getMessage().contains("value too large")) {
-                    mensagemErro += "\n👉 VALOR FORA DOS LIMITES PERMITIDOS!\n\n" +
-                                  "Limites do banco:\n" +
-                                  "• Peso: até 999.99 kg\n" +
-                                  "• Altura: até 9.99 metros\n" +
-                                  "• Gordura: até 100%\n\n" +
-                                  "Ajuste os valores e tente novamente.";
-                } else if (e.getMessage().contains("foreign key constraint")) {
-                    mensagemErro += "\n👉 ALUNO OU INSTRUTOR NÃO EXISTE!\n\n" +
-                                  "Verifique se os IDs selecionados existem no banco.";
-                } else {
-                    mensagemErro += "\nDetalhe: " + e.getMessage();
-                }
+
+            if (e.getMessage() != null && e.getMessage().contains("out of range")) {
+                mensagemErro += "\n👉 VALOR FORA DOS LIMITES DO BANCO!\n\n" +
+                              "Valores convertidos:\n" +
+                              "Peso: " + removerMascaraConverter(txtPeso.getText()) + "\n" +
+                              "Altura: " + removerMascaraConverter(txtAltura.getText()) + "\n" +
+                              "Gordura: " + removerMascaraConverter(txtGordura.getText()) + "\n\n" +
+                              "Ajuste os limites da tabela no MySQL.";
+            } else {
+                mensagemErro += "\nDetalhe: " + e.getMessage();
             }
-            
+
             JOptionPane.showMessageDialog(this, 
                 mensagemErro, 
                 "Erro", 
                 JOptionPane.ERROR_MESSAGE);
-            
-            // Log para debug
-            System.err.println("ERRO AO SALVAR AVALIAÇÃO:");
+
             e.printStackTrace();
         }
     }//GEN-LAST:event_btSalvarActionPerformed
@@ -511,6 +487,30 @@ public class fmAvaliacao extends javax.swing.JInternalFrame {
                 JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_formInternalFrameActivated
+    
+    private double removerMascaraConverter(String textoComMascara) {
+        if (textoComMascara == null || textoComMascara.trim().isEmpty()) {
+            return 0.0;
+        }
+
+        // Remove tudo que não é número, ponto ou vírgula
+        String limpo = textoComMascara
+            .replace("kg", "")   // se tiver "kg" na máscara
+            .replace("%", "")    // remove percentual
+            .replace("m", "")    // remove "m" de metros
+            .replace(" ", "")    // remove espaços
+            .trim();
+
+        // Substitui vírgula por ponto (formato brasileiro)
+        limpo = limpo.replace(",", ".");
+
+        try {
+            return Double.parseDouble(limpo);
+        } catch (NumberFormatException e) {
+            return 0.0;
+        }
+    }
+    
     private int extrairIdDoCombo(javax.swing.JComboBox<String> combo) {
         Object itemSelecionado = combo.getSelectedItem();
         if (itemSelecionado == null) {
