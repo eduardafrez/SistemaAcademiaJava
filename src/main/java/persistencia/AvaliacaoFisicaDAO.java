@@ -16,7 +16,7 @@ import negocio.AvaliacaoFisica;
 public class AvaliacaoFisicaDAO implements IAvaliacaoFisicaDAO {
     private Connection connection;
     
-    public AvaliacaoFisicaDAO(Connection connection) {
+    public AvaliacaoFisicaDAO() {
         this.connection = new ConFactory().getConnection();
     }
     

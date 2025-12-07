@@ -55,11 +55,12 @@ public class fmPrincipal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         itCadrastros = new javax.swing.JMenu();
         itAlunos = new javax.swing.JMenuItem();
-        itListagem = new javax.swing.JMenuItem();
+        itFichas = new javax.swing.JMenuItem();
+        itAvaliacao = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         itProcessos = new javax.swing.JMenu();
-        itAvaliacao = new javax.swing.JMenuItem();
-        itFichas = new javax.swing.JMenuItem();
+        itListagem = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         itAjuda = new javax.swing.JMenu();
         itSobre = new javax.swing.JMenuItem();
 
@@ -127,19 +128,23 @@ public class fmPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btLista)
-                    .addComponent(btSair)
-                    .addComponent(btAddAluno))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btLista)
+                            .addComponent(btSair)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btAddAluno)))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(12, Short.MAX_VALUE)
                 .addComponent(btAddAluno)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btLista)
                 .addGap(18, 18, 18)
                 .addComponent(btSair)
@@ -197,15 +202,25 @@ public class fmPrincipal extends javax.swing.JFrame {
         });
         itCadrastros.add(itAlunos);
 
-        itListagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itListagem.setText("Listar Alunos");
-        itListagem.addActionListener(new java.awt.event.ActionListener() {
+        itFichas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itFichas.setText("Ficha de Treino");
+        itFichas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itListagemActionPerformed(evt);
+                itFichasActionPerformed(evt);
             }
         });
-        itCadrastros.add(itListagem);
+        itCadrastros.add(itFichas);
 
+        itAvaliacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itAvaliacao.setText("Avaliação Física");
+        itAvaliacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itAvaliacaoActionPerformed(evt);
+            }
+        });
+        itCadrastros.add(itAvaliacao);
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setText("Funcionário");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,23 +233,18 @@ public class fmPrincipal extends javax.swing.JFrame {
 
         itProcessos.setText("Processos");
 
-        itAvaliacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itAvaliacao.setText("Avaliação Física");
-        itAvaliacao.addActionListener(new java.awt.event.ActionListener() {
+        itListagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itListagem.setText("Listar Alunos");
+        itListagem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itAvaliacaoActionPerformed(evt);
+                itListagemActionPerformed(evt);
             }
         });
-        itProcessos.add(itAvaliacao);
+        itProcessos.add(itListagem);
 
-        itFichas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itFichas.setText("Ficha de Treino");
-        itFichas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itFichasActionPerformed(evt);
-            }
-        });
-        itProcessos.add(itFichas);
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Pagamento");
+        itProcessos.add(jMenuItem2);
 
         jMenuBar1.add(itProcessos);
 
@@ -408,6 +418,16 @@ public class fmPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            if (frame instanceof fmFuncionario && frame.isVisible()) {
+                try {
+                    frame.setSelected(true);
+                    return; // Já está aberta, sai do método
+                } catch (PropertyVetoException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
         fmFuncionario janela = new fmFuncionario();
         jDesktopPane1.add(janela);
         janela.setVisible(true);
@@ -449,6 +469,7 @@ public class fmPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTable jTable1;

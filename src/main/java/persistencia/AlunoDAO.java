@@ -18,7 +18,7 @@ import negocio.Aluno;
 public class AlunoDAO implements IAlunoDAO{
     private Connection connection;
     
-    public AlunoDAO(Connection connection) {
+    public AlunoDAO() {
         this.connection = new ConFactory().getConnection();
     }
     

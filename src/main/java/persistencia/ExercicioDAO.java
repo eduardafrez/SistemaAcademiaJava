@@ -16,7 +16,7 @@ import negocio.Exercicio;
 public class ExercicioDAO implements IExercicioDAO {
     private Connection connection;
     
-    public ExercicioDAO(Connection connection) {
+    public ExercicioDAO() {
         this.connection = new ConFactory().getConnection();
     }
     
