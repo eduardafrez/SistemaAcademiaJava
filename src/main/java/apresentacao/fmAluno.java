@@ -99,6 +99,8 @@ public class fmAluno extends javax.swing.JInternalFrame {
             }
         });
 
+        jDesktopPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Insira os Dados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 153, 153))); // NOI18N
+
         jLabel1.setText("Nome :");
 
         txtNome.addActionListener(new java.awt.event.ActionListener() {

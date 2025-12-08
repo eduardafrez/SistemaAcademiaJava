@@ -32,6 +32,7 @@ public class fmSobre extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         btSair = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(62, 67, 76));
         setClosable(true);
 
         jLabel1.setFont(new java.awt.Font("Bahnschrift", 1, 51)); // NOI18N

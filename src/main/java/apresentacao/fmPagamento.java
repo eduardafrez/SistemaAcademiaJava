@@ -4,6 +4,19 @@
  */
 package apresentacao;
 
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import negocio.Aluno;
+import negocio.Pagamento;
+import persistencia.AlunoDAO;
+import persistencia.IAlunoDAO;
+import persistencia.PagamentoDAO;
+
 /**
  *
  * @author Administrator
@@ -15,6 +28,24 @@ public class fmPagamento extends javax.swing.JInternalFrame {
      */
     public fmPagamento() {
         initComponents();
+        
+    }
+    class ItemAluno {
+        private int id;
+        private String nome;
+
+        public ItemAluno(int id, String nome) {
+            this.id = id;
+            this.nome = nome;
+        }
+
+        public int getId() { return id; }
+        public String getNome() { return nome; }
+
+        @Override
+        public String toString() {
+            return nome; // Mostra apenas o nome no combobox
+        }
     }
 
     /**
@@ -27,27 +58,157 @@ public class fmPagamento extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cbAluno = new javax.swing.JComboBox<>();
+        laData = new javax.swing.JLabel();
+        cbPlano = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        cbPagamento = new javax.swing.JComboBox<>();
+        BtSalvar = new javax.swing.JButton();
+        btCancelar = new javax.swing.JButton();
+        txtValor = new javax.swing.JLabel();
 
         setClosable(true);
+        setPreferredSize(new java.awt.Dimension(380, 243));
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pagamento"));
+        jPanel1.setBackground(new java.awt.Color(62, 67, 76));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pagamento", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 153, 153))); // NOI18N
+
+        jLabel1.setText("Aluno :");
+
+        cbAluno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbAluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbAlunoActionPerformed(evt);
+            }
+        });
+
+        laData.setText("##/##/####");
+
+        cbPlano.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mensal", "Trimestral", "Semestral", "Anual" }));
+        cbPlano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPlanoActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Plano :");
+
+        jLabel3.setText("Valor :");
+
+        jLabel4.setText("Forma de pagamento :");
+
+        cbPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Credito", "Debito", "Pix", "Boleto" }));
+        cbPagamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbPagamentoActionPerformed(evt);
+            }
+        });
+
+        BtSalvar.setBackground(new java.awt.Color(102, 102, 255));
+        BtSalvar.setForeground(new java.awt.Color(255, 255, 255));
+        BtSalvar.setText("Salvar");
+        BtSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtSalvarActionPerformed(evt);
+            }
+        });
+
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
+
+        txtValor.setText("100,00");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 372, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(82, 82, 82)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1)))
+                            .addComponent(jLabel4))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbAluno, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbPlano, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                                .addComponent(laData))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addComponent(BtSalvar)
+                        .addGap(50, 50, 50)
+                        .addComponent(btCancelar)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 239, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cbAluno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(laData))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cbPlano, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(7, 7, 7)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(cbPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtSalvar)
+                    .addComponent(btCancelar))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -56,15 +217,184 @@ public class fmPagamento extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void cbPlanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPlanoActionPerformed
+        // TODO add your handling code here:
+        String plano = (String) cbPlano.getSelectedItem();
+        if ("Mensal".equals(plano)) {
+            txtValor.setText("100,00");
+        } else if ("Trimestral".equals(plano)) {
+            txtValor.setText("270,00");
+        } else if ("Semestral".equals(plano)) {
+            txtValor.setText("500,00");
+        } else if ("Anual".equals(plano)) {
+            txtValor.setText("900,00");
+        }
+    }//GEN-LAST:event_cbPlanoActionPerformed
+
+    private void BtSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtSalvarActionPerformed
+    try {
+        // 1. Pegar idAluno do combobox cbAluno
+        Object itemSelecionado = cbAluno.getSelectedItem();
+        
+        // Verificar se é o item padrão "Selecione um aluno..."
+        if (itemSelecionado == null || itemSelecionado.equals("Selecione um aluno...")) {
+            JOptionPane.showMessageDialog(this, 
+                "Selecione um aluno válido!", 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Verificar se é um ItemAluno
+        if (!(itemSelecionado instanceof ItemAluno)) {
+            JOptionPane.showMessageDialog(this, 
+                "Erro ao obter dados do aluno.", 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        ItemAluno itemAluno = (ItemAluno) itemSelecionado;
+        int idAluno = itemAluno.getId();
+        String nomeAluno = itemAluno.getNome();
+        
+        // 2. Pegar data atual
+        String dataStr = laData.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataPagamento = sdf.parse(dataStr);
+
+        // 3. Pegar valor do txtValor
+        String valorStr = txtValor.getText().trim();
+        valorStr = valorStr.replace(",", ".");
+        double valor = Double.parseDouble(valorStr);
+
+        // 4. Pegar forma de pagamento do combobox cbPagamento
+        String formaPagamento = (String) cbPagamento.getSelectedItem();
+        
+        String plano = (String) cbPlano.getSelectedItem();
+
+        // 5. Status de pagamento é "pago"
+        String status = "pago";
+
+        // Criar objeto Pagamento
+        Pagamento pagamento = new Pagamento();
+        pagamento.setIdAluno(idAluno);
+        pagamento.setDataPagamento(dataPagamento);
+        pagamento.setValor(valor);
+        pagamento.setPlano(plano);
+        pagamento.setFormaPagamento(formaPagamento);
+        pagamento.setStatus(status);
+
+        // Inserir no banco de dados
+        PagamentoDAO pagamentoDAO = new PagamentoDAO();
+        pagamentoDAO.adiciona(pagamento); // Este método retorna void
+        
+        // Se chegou aqui sem lançar exceção, foi bem-sucedido
+        JOptionPane.showMessageDialog(this, 
+            "Pagamento registrado com sucesso!\n" +
+            "Aluno: " + nomeAluno + " (ID: " + idAluno + ")\n" +
+            "Data: " + dataStr + "\n" +
+            "Valor: R$ " + String.format("%.2f", valor) + "\n" +
+            "Forma: " + formaPagamento + "\n" +
+            "Status: " + status, 
+            "Pagamento realizado", 
+            JOptionPane.INFORMATION_MESSAGE);
+        
+        // Limpar campos após sucesso
+        limparCampos();
+
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, 
+            "Informe o Plano", 
+            "Erro de formato", 
+            JOptionPane.ERROR_MESSAGE);
+        txtValor.requestFocus();
+    } catch (java.text.ParseException e) {
+        JOptionPane.showMessageDialog(this, 
+            "Data inválida! Formato correto: dd/MM/aaaa", 
+            "Erro de data", 
+            JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+            "Erro ao registrar pagamento: " + e.getMessage(), 
+            "Erro", 
+            JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+    }//GEN-LAST:event_BtSalvarActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
+
+    private void cbAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlunoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbAlunoActionPerformed
+
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        // TODO add your handling code here:
+        DateFormat data = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataAtual = new Date();
+        laData.setText(data.format(dataAtual));
+
+        try {
+            // Carrega alunos do banco
+            IAlunoDAO alunoDAO = new AlunoDAO();
+            DefaultComboBoxModel modeloAluno = new DefaultComboBoxModel();
+
+            // Adiciona opção padrão
+            modeloAluno.addElement("Selecione um aluno...");
+
+            // Adiciona alunos com ID e Nome
+            for (Aluno aluno : alunoDAO.listarTodos()) {
+                // Usa a classe ItemAluno para armazenar ID e Nome
+                ItemAluno item = new ItemAluno(aluno.getIdAluno(), aluno.getNome());
+                modeloAluno.addElement(item);
+            }
+
+            cbAluno.setModel(modeloAluno);
+            cbAluno.setSelectedIndex(0); // Seleciona a primeira opção
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                "Erro ao carregar alunos: " + e.getMessage(),
+                "Erro",
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private void cbPagamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPagamentoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbPagamentoActionPerformed
+    
+    private void limparCampos() {
+        cbAluno.setSelectedIndex(0);
+        cbPlano.setSelectedIndex(0);
+        cbPagamento.setSelectedIndex(0);
+        txtValor.setText("0,00");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtSalvar;
+    private javax.swing.JButton btCancelar;
+    private javax.swing.JComboBox<String> cbAluno;
+    private javax.swing.JComboBox<String> cbPagamento;
+    private javax.swing.JComboBox<String> cbPlano;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel laData;
+    private javax.swing.JLabel txtValor;
     // End of variables declaration//GEN-END:variables
 }

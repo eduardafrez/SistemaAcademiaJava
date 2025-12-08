@@ -4,25 +4,31 @@
  */
 package apresentacao;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import negocio.Aluno;
 import negocio.Exercicio;
 import negocio.Funcionario;
+import negocio.Treino;
 import persistencia.AlunoDAO;
 import persistencia.ExercicioDAO;
 import persistencia.FuncionarioDAO;
 import persistencia.IAlunoDAO;
 import persistencia.IExercicioDAO;
 import persistencia.IFuncionarioDAO;
+import persistencia.ITreinoDAO;
+import persistencia.TreinoDAO;
 
 /**
  *
  * @author giuli
  */
-public class fmFichaTreino extends javax.swing.JInternalFrame {
-
+public class fmFichaTreino extends javax.swing.JInternalFrame {   
     /**
      * Creates new form fmFichaTreino
      */
@@ -46,9 +52,9 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         cbFuncionario = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
-        txtInicio = new javax.swing.JFormattedTextField();
+        txtVencimento = new javax.swing.JFormattedTextField();
         jLabel8 = new javax.swing.JLabel();
-        txtInicio1 = new javax.swing.JFormattedTextField();
+        txtInicio = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         cbExercicio = new javax.swing.JComboBox<>();
@@ -56,9 +62,9 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         btAdicionar = new javax.swing.JButton();
-        txtSeries = new javax.swing.JSpinner();
-        txtRepeticoes = new javax.swing.JSpinner();
-        txtCarga = new javax.swing.JSpinner();
+        spSeries = new javax.swing.JSpinner();
+        spRepeticoes = new javax.swing.JSpinner();
+        spCarga = new javax.swing.JSpinner();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbTreino = new javax.swing.JTable();
         btSalvar = new javax.swing.JButton();
@@ -83,6 +89,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         setTitle("Nova Ficha de Treino");
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameActivated(evt);
             }
             public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -117,7 +124,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         jLabel7.setText("Data de Inicio");
 
         try {
-            txtInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtVencimento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -125,7 +132,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         jLabel8.setText("Vencimento");
 
         try {
-            txtInicio1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            txtInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -152,8 +159,8 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -169,11 +176,11 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(txtInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtVencimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -200,12 +207,12 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             }
         });
 
-        txtSeries.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spSeries.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        txtRepeticoes.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spRepeticoes.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        txtCarga.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-        txtCarga.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        spCarga.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spCarga.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -225,9 +232,9 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtSeries)
-                            .addComponent(txtRepeticoes)
-                            .addComponent(txtCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spSeries)
+                            .addComponent(spRepeticoes)
+                            .addComponent(spCarga, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btAdicionar)
                         .addGap(19, 19, 19))))
@@ -244,36 +251,33 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(txtSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(spSeries, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(txtRepeticoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(spRepeticoes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(btAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spCarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         tbTreino.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tbTreino.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Exercicio", "Séries", "Repetições", "Carga", "Descrição"
+                "Exercicio", "Séries", "Repetições", "Carga"
             }
         ));
         jScrollPane2.setViewportView(tbTreino);
 
-        btSalvar.setBackground(new java.awt.Color(0, 204, 51));
+        btSalvar.setBackground(new java.awt.Color(0, 153, 51));
         btSalvar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btSalvar.setText("Finalizar Ficha");
@@ -288,16 +292,16 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(178, 178, 178)
-                .addComponent(btSalvar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btSalvar)
+                .addGap(178, 178, 178))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -316,8 +320,146 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
+        try {
+            // 1. VALIDAÇÕES BÁSICAS
 
+            // Valida aluno
+            if (cbAluno.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "Selecione um aluno!", 
+                    "Aluno não selecionado", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Valida funcionário
+            if (cbFuncionario.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "Selecione um instrutor!", 
+                    "Instrutor não selecionado", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Valida tabela de exercícios
+            if (tbTreino.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "Adicione pelo menos um exercício!", 
+                    "Tabela vazia", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Valida datas
+            String dataInicioStr = txtInicio.getText().trim();
+            String dataVencimentoStr = txtVencimento.getText().trim();
+
+            // Verifica se datas estão preenchidas corretamente
+            if (dataInicioStr.equals("  /  /    ") || dataInicioStr.replace("/", "").trim().length() != 8) {
+                JOptionPane.showMessageDialog(this, 
+                    "Preencha corretamente a data de início (dd/mm/aaaa)!", 
+                    "Data de início inválida", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtInicio.requestFocus();
+                return;
+            }
+
+            if (dataVencimentoStr.equals("  /  /    ") || dataVencimentoStr.replace("/", "").trim().length() != 8) {
+                JOptionPane.showMessageDialog(this, 
+                    "Preencha corretamente a data de vencimento (dd/mm/aaaa)!", 
+                    "Data de vencimento inválida", 
+                    JOptionPane.WARNING_MESSAGE);
+                txtVencimento.requestFocus();
+                return;
+            }
+
+            // 2. PEGA OS DADOS DOS CAMPOS
+
+            // Pega nome do aluno (string do combobox)
+            String nomeAluno = (String) cbAluno.getSelectedItem();
+
+            // Pega nome do funcionário (string do combobox)
+            String nomeFuncionario = (String) cbFuncionario.getSelectedItem();
+
+            // Converte tabela para string
+            String treinoString = converterTabelaParaString();
+
+            // 3. CONVERTE DATAS (dd/MM/yyyy para Date)
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            Date dataInicio;
+            Date dataFim;
+
+            try {
+                dataInicio = sdf.parse(dataInicioStr);
+                dataFim = sdf.parse(dataVencimentoStr);
+
+                // Verifica se data fim é posterior à data início
+                if (dataFim.before(dataInicio) || dataFim.equals(dataInicio)) {
+                    JOptionPane.showMessageDialog(this, 
+                        "A data de vencimento deve ser posterior à data de início!", 
+                        "Datas inválidas", 
+                        JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Formato de data inválido! Use o formato dd/mm/aaaa\n" +
+                    "Exemplo: 15/01/2024", 
+                    "Erro de data", 
+                    JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 4. CRIA OBJETO TREINO
+            Treino treino = new Treino();
+            treino.setAluno(nomeAluno);
+            treino.setFuncionario(nomeFuncionario);
+            treino.setTreino(treinoString);
+            treino.setDataInicio(dataInicio);
+            treino.setDataFim(dataFim);
+
+            // 5. SALVA NO BANCO DE DADOS
+            ITreinoDAO treinoDAO = new TreinoDAO();
+            treinoDAO.adiciona(treino);
+
+            // 6. MENSAGEM DE SUCESSO COM DETALHES
+            SimpleDateFormat sdfDisplay = new SimpleDateFormat("dd/MM/yyyy");
+            String mensagemSucesso = String.format(
+                "Ficha de treino salva com sucesso!\n\n" +
+                "Aluno: %s\n" +
+                "Instrutor: %s\n" +
+                "Quantidade de exercícios: %d\n" +
+                "Data de início: %s\n" +
+                "Data de vencimento: %s\n\n" +
+                "Treino salvo:\n%s",
+                nomeAluno,
+                nomeFuncionario,
+                tbTreino.getRowCount(),
+                sdfDisplay.format(dataInicio),
+                sdfDisplay.format(dataFim),
+                formatarTreinoParaExibicao(treinoString)
+            );
+
+            JOptionPane.showMessageDialog(this, 
+                mensagemSucesso, 
+                "Sucesso", 
+                JOptionPane.INFORMATION_MESSAGE);
+
+            // 7. LIMPA FORMULÁRIO PARA NOVA FICHA
+            limparFormulario();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "Erro ao salvar ficha de treino!\n\n" +
+                "Detalhes: " + e.getMessage(), 
+                "Erro", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void cbAlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbAlunoActionPerformed
@@ -325,12 +467,39 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cbAlunoActionPerformed
 
     private void btAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAdicionarActionPerformed
-        
+        // 1. Pega valores
+        Object exercicio = cbExercicio.getSelectedItem();
+        int series = (int) spSeries.getValue();
+        int repeticoes = (int) spRepeticoes.getValue();
+        int carga = (int) spCarga.getValue(); // ou double se for decimal
+
+        // 2. Validação
+        if (series <= 0 || repeticoes <= 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Séries e repetições devem ser maiores que zero!");
+            return;
+        }
+
+        // 3. Adiciona na Tabela
+        DefaultTableModel modelo = (DefaultTableModel) tbTreino.getModel();
+        modelo.addRow(new Object[]{ 
+            exercicio, 
+            String.valueOf(series), 
+            String.valueOf(repeticoes), 
+            String.valueOf(carga) 
+        });
+
+        // 4. Limpa campos
+        spSeries.setValue(1); // Valor padrão mínimo
+        spRepeticoes.setValue(1);
+        spCarga.setValue(0);
+
+        // 5. Foco
+        spSeries.requestFocus();
     }//GEN-LAST:event_btAdicionarActionPerformed
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
-        // TODO add your handling code here:      
-        try {
+        // TODO add your handling code here:
+                try {
             // ALUNOS
             IAlunoDAO alunoDAO = new AlunoDAO();
             DefaultComboBoxModel modeloAluno = new DefaultComboBoxModel();
@@ -378,6 +547,108 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formInternalFrameOpened
 
+    private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
+        // TODO add your handling code here:
+        try {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date hoje = new Date();
+        
+        // Data de início = hoje
+        txtInicio.setText(sdf.format(hoje));
+        
+        // Data de vencimento = hoje + 30 dias
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(hoje);
+        calendar.add(Calendar.DAY_OF_MONTH, 30);
+        txtVencimento.setText(sdf.format(calendar.getTime()));
+        
+    } catch (Exception e) {
+        // Ignora erro, mantém campos vazios
+    }
+    }//GEN-LAST:event_formInternalFrameActivated
+
+    private String formatarTreinoParaExibicao(String treinoString) {
+        if (treinoString == null || treinoString.isEmpty()) {
+            return "Nenhum exercício";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        String[] linhas = treinoString.split(";");
+
+        for (int i = 0; i < linhas.length; i++) {
+            String[] colunas = linhas[i].split(",");
+            if (colunas.length >= 4) {
+                sb.append(String.format("%d. %s: %s séries x %s repetições (%s kg)\n", 
+                    i + 1,
+                    colunas[0],  // Exercício
+                    colunas[1],  // Séries
+                    colunas[2],  // Repetições
+                    colunas[3]   // Carga
+                ));
+            }
+        }
+
+        return sb.toString();
+    }
+    
+    private String converterTabelaParaString() {
+        StringBuilder sb = new StringBuilder();
+        int linhas = tbTreino.getRowCount();
+        int colunas = tbTreino.getColumnCount();
+
+        for (int linha = 0; linha < linhas; linha++) {
+            for (int coluna = 0; coluna < colunas; coluna++) {
+                Object valor = tbTreino.getValueAt(linha, coluna);
+                String texto = (valor != null) ? valor.toString().trim() : "";
+
+                // Remove aspas se houver
+                texto = texto.replace("\"", "");
+
+                // Se o texto contém vírgula ou ponto e vírgula, coloca entre aspas
+                if (texto.contains(",") || texto.contains(";")) {
+                    texto = "\"" + texto + "\"";
+                }
+
+                sb.append(texto);
+
+                if (coluna < colunas - 1) {
+                    sb.append(",");
+                }
+            }
+            if (linha < linhas - 1) {
+                sb.append(";");
+            }
+        }
+
+        // DEBUG: Mostrar string gerada
+        System.out.println("String gerada: " + sb.toString());
+
+        return sb.toString();
+    }
+
+    // MÉTODO PARA LIMPAR FORMULÁRIO
+    private void limparFormulario() {
+        // Limpa comboboxes
+        cbAluno.setSelectedIndex(0);
+        cbFuncionario.setSelectedIndex(0);
+        cbExercicio.setSelectedIndex(0);
+
+        // Limpa datas
+        txtInicio.setText("");
+        txtVencimento.setText("");
+
+        // Limpa tabela
+        DefaultTableModel modelo = (DefaultTableModel) tbTreino.getModel();
+        modelo.setRowCount(0);
+
+        // Reseta spinners para valores padrão
+        spSeries.setValue(3);
+        spRepeticoes.setValue(10);
+        spCarga.setValue(10);
+
+        // Foco no aluno
+        cbAluno.requestFocus();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdicionar;
@@ -398,11 +669,11 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JSpinner spCarga;
+    private javax.swing.JSpinner spRepeticoes;
+    private javax.swing.JSpinner spSeries;
     private javax.swing.JTable tbTreino;
-    private javax.swing.JSpinner txtCarga;
     private javax.swing.JFormattedTextField txtInicio;
-    private javax.swing.JFormattedTextField txtInicio1;
-    private javax.swing.JSpinner txtRepeticoes;
-    private javax.swing.JSpinner txtSeries;
+    private javax.swing.JFormattedTextField txtVencimento;
     // End of variables declaration//GEN-END:variables
 }

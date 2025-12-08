@@ -50,6 +50,7 @@ public class fmFuncionario extends javax.swing.JInternalFrame {
         setClosable(true);
         setTitle("Novo Funcionário");
 
+        jPanel1.setBackground(new java.awt.Color(62, 67, 76));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Insira dados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 0, 12), new java.awt.Color(0, 153, 153))); // NOI18N
 
         jLabel1.setText("Nome completo :");

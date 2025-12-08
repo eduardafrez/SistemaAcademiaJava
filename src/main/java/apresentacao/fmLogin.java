@@ -45,6 +45,7 @@ public class fmLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JavaGym");
 
+        jPanel1.setBackground(new java.awt.Color(62, 67, 76));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Insira seus dados"));
 
         laLogin.setText("Usuário :");

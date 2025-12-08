@@ -4,35 +4,31 @@ import java.util.Date;
 
 public class Treino {
     private int idTreino;
-    private int idAluno;
-    private int idFuncionario;    
-    private String descricaoTreino;
+    private String aluno;           // Nome do aluno (string)
+    private String funcionario;     // Nome do funcionário (string)
+    private String treino;          // String com exercícios
     private Date dataInicio;
     private Date dataFim;
-
-    //construtores
 
     public Treino() {
     }
 
-    public Treino(int idAluno, int idFuncionario, String descricaoTreino, Date dataInicio, Date dataFim) {
-        this.idAluno = idAluno;
-        this.idFuncionario = idFuncionario;
-        this.descricaoTreino = descricaoTreino;
+    public Treino(String aluno, String funcionario, String treino, Date dataInicio, Date dataFim) {
+        this.aluno = aluno;
+        this.funcionario = funcionario;
+        this.treino = treino;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
     }
 
-    public Treino(int idTreino, int idAluno, int idFuncionario, String descricaoTreino, Date dataInicio, Date dataFim) {
+    public Treino(int idTreino, String aluno, String funcionario, String treino, Date dataInicio, Date dataFim) {
         this.idTreino = idTreino;
-        this.idAluno = idAluno;
-        this.idFuncionario = idFuncionario;
-        this.descricaoTreino = descricaoTreino;
+        this.aluno = aluno;
+        this.funcionario = funcionario;
+        this.treino = treino;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
     }
-    
-    //getters e setters
 
     public int getIdTreino() {
         return idTreino;
@@ -42,28 +38,28 @@ public class Treino {
         this.idTreino = idTreino;
     }
 
-    public int getIdAluno() {
-        return idAluno;
+    public String getAluno() {
+        return aluno;
     }
 
-    public void setIdAluno(int idAluno) {
-        this.idAluno = idAluno;
+    public void setAluno(String aluno) {
+        this.aluno = aluno;
     }
 
-    public int getIdFuncionario() {
-        return idFuncionario;
+    public String getFuncionario() {
+        return funcionario;
     }
 
-    public void setIdFuncionario(int idFuncionario) {
-        this.idFuncionario = idFuncionario;
+    public void setFuncionario(String funcionario) {
+        this.funcionario = funcionario;
     }
 
-    public String getDescricaoTreino() {
-        return descricaoTreino;
+    public String getTreino() {
+        return treino;
     }
 
-    public void setDescricaoTreino(String descricaoTreino) {
-        this.descricaoTreino = descricaoTreino;
+    public void setTreino(String treino) {
+        this.treino = treino;
     }
 
     public Date getDataInicio() {
@@ -84,7 +80,6 @@ public class Treino {
 
     @Override
     public String toString() {
-        return "Treino{" + "idTreino=" + idTreino + ", idAluno=" + idAluno + ", idFuncionario=" + idFuncionario + ", descricaoTreino=" + descricaoTreino + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + '}';
+        return "Treino{" + "idTreino=" + idTreino + ", aluno=" + aluno + ", funcionario=" + funcionario + ", treino=" + treino + ", dataInicio=" + dataInicio + ", dataFim=" + dataFim + '}';
     }
-        
 }

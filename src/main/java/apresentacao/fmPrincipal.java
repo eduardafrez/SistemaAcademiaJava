@@ -50,17 +50,16 @@ public class fmPrincipal extends javax.swing.JFrame {
         btAddAluno = new javax.swing.JButton();
         btSair = new javax.swing.JButton();
         btLista = new javax.swing.JButton();
-        jtPagamentos = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         itCadrastros = new javax.swing.JMenu();
         itAlunos = new javax.swing.JMenuItem();
-        itFichas = new javax.swing.JMenuItem();
-        itAvaliacao = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         itProcessos = new javax.swing.JMenu();
-        itListagem = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        itFichas = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        itListagem = new javax.swing.JMenuItem();
         itAjuda = new javax.swing.JMenu();
         itSobre = new javax.swing.JMenuItem();
 
@@ -102,6 +101,7 @@ public class fmPrincipal extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(51, 51, 51));
 
         btAddAluno.setBackground(new java.awt.Color(102, 102, 255));
+        btAddAluno.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/addaluno.png"))); // NOI18N
         btAddAluno.setText("Novo aluno");
         btAddAluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,14 +109,18 @@ public class fmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btSair.setBackground(new java.awt.Color(102, 102, 255));
         btSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/sair.png"))); // NOI18N
+        btSair.setText("Sair");
         btSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSairActionPerformed(evt);
             }
         });
 
+        btLista.setBackground(new java.awt.Color(102, 102, 255));
         btLista.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/lista.png"))); // NOI18N
+        btLista.setText("Novo treino");
         btLista.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btListaActionPerformed(evt);
@@ -128,65 +132,46 @@ public class fmPrincipal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btLista)
-                            .addComponent(btSair)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btAddAluno)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addGap(11, 11, 11)
+                .addComponent(btAddAluno, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btLista)
+                .addGap(12, 12, 12)
+                .addComponent(btSair, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(469, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addComponent(btAddAluno)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btLista)
-                .addGap(18, 18, 18)
-                .addComponent(btSair)
-                .addGap(18, 18, 18))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btLista)
+                    .addComponent(btAddAluno)
+                    .addComponent(btSair))
+                .addGap(182, 182, 182))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Id", "Nome", "Status"
-            }
-        ));
-        jtPagamentos.setViewportView(jTable1);
+        jButton1.setBackground(new java.awt.Color(52, 192, 163));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logofinal.png"))); // NOI18N
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jtPagamentos, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addComponent(jtPagamentos, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtPagamentos, javax.swing.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -202,24 +187,6 @@ public class fmPrincipal extends javax.swing.JFrame {
         });
         itCadrastros.add(itAlunos);
 
-        itFichas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itFichas.setText("Ficha de Treino");
-        itFichas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itFichasActionPerformed(evt);
-            }
-        });
-        itCadrastros.add(itFichas);
-
-        itAvaliacao.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.SHIFT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        itAvaliacao.setText("Avaliação Física");
-        itAvaliacao.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itAvaliacaoActionPerformed(evt);
-            }
-        });
-        itCadrastros.add(itAvaliacao);
-
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setText("Funcionário");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -233,6 +200,28 @@ public class fmPrincipal extends javax.swing.JFrame {
 
         itProcessos.setText("Processos");
 
+        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem2.setText("Pagamento");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        itProcessos.add(jMenuItem2);
+
+        itFichas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        itFichas.setText("Ficha de Treino");
+        itFichas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itFichasActionPerformed(evt);
+            }
+        });
+        itProcessos.add(itFichas);
+
+        jMenuBar1.add(itProcessos);
+
+        jMenu3.setText("Lista");
+
         itListagem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         itListagem.setText("Listar Alunos");
         itListagem.addActionListener(new java.awt.event.ActionListener() {
@@ -240,13 +229,9 @@ public class fmPrincipal extends javax.swing.JFrame {
                 itListagemActionPerformed(evt);
             }
         });
-        itProcessos.add(itListagem);
+        jMenu3.add(itListagem);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        jMenuItem2.setText("Pagamento");
-        itProcessos.add(jMenuItem2);
-
-        jMenuBar1.add(itProcessos);
+        jMenuBar1.add(jMenu3);
 
         itAjuda.setText("Ajuda");
 
@@ -312,23 +297,6 @@ public class fmPrincipal extends javax.swing.JFrame {
        janela.setVisible(true);
     }//GEN-LAST:event_itListagemActionPerformed
 
-    private void itAvaliacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itAvaliacaoActionPerformed
-       //garante que não vai abrir caso o fm esteja aberto
-        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
-            if (frame instanceof fmAvaliacao && frame.isVisible()) {
-                try {
-                    frame.setSelected(true);
-                    return; // Já está aberta, sai do método
-                } catch (PropertyVetoException ex) {
-                    ex.printStackTrace();
-                }
-            }
-       }
-       fmAvaliacao janela = new fmAvaliacao();
-       jDesktopPane1.add(janela);
-       janela.setVisible(true);
-    }//GEN-LAST:event_itAvaliacaoActionPerformed
-
     private void itFichasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itFichasActionPerformed
         //garante que não vai abrir caso o jif esteja aberto
         for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
@@ -379,6 +347,24 @@ public class fmPrincipal extends javax.swing.JFrame {
 
     private void btListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btListaActionPerformed
         // TODO add your handling code here:
+                for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            if (frame instanceof fmFichaTreino && frame.isVisible()) {
+                try {
+                    frame.setSelected(true);
+                    return; // Já está aberta, sai do método
+                } catch (PropertyVetoException ex) {
+                    ex.printStackTrace();
+                }
+            }
+       }
+        // Cria a janela de ficha
+        fmFichaTreino janela = new fmFichaTreino();
+
+        // Adiciona no painel principal
+        jDesktopPane1.add(janela);
+
+        // Faz aparecer
+        janela.setVisible(true);
     }//GEN-LAST:event_btListaActionPerformed
 
     private void btSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSairActionPerformed
@@ -432,6 +418,23 @@ public class fmPrincipal extends javax.swing.JFrame {
         jDesktopPane1.add(janela);
         janela.setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        for (JInternalFrame frame : jDesktopPane1.getAllFrames()) {
+            if (frame instanceof fmPagamento && frame.isVisible()) {
+                try {
+                    frame.setSelected(true);
+                    return; // Já está aberta, sai do método
+                } catch (PropertyVetoException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        fmPagamento janela = new fmPagamento();
+        jDesktopPane1.add(janela);
+        janela.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
     
     /**
      * @param args the command line arguments
@@ -457,23 +460,22 @@ public class fmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btSair;
     private javax.swing.JMenu itAjuda;
     private javax.swing.JMenuItem itAlunos;
-    private javax.swing.JMenuItem itAvaliacao;
     private javax.swing.JMenu itCadrastros;
     private javax.swing.JMenuItem itFichas;
     private javax.swing.JMenuItem itListagem;
     private javax.swing.JMenu itProcessos;
     private javax.swing.JMenuItem itSobre;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JScrollPane jtPagamentos;
     private javax.swing.JLabel laDataHora;
     // End of variables declaration//GEN-END:variables
 }

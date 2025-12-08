@@ -19,25 +19,26 @@ public class TreinoDAO implements ITreinoDAO {
     
     @Override
     public void adiciona(Treino treino) {
-        String sql = "INSERT INTO Treinos (idAluno, idFuncionario, descricaoTreino, dataInicio, dataFim) " +
-                    "VALUES (?,?,?,?,?)";
-        
+        String sql = "INSERT INTO Treinos (aluno, funcionario, treino, dataInicio, dataFim) " +
+                    "VALUES (?, ?, ?, ?, ?)";
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            
-            stmt.setInt(1, treino.getIdAluno());
-            stmt.setInt(2, treino.getIdFuncionario());
-            stmt.setString(3, treino.getDescricaoTreino());
+
+            // CORREÇÃO: Mudado para getAluno() e getFuncionario() (nomes em string)
+            stmt.setString(1, treino.getAluno());          // Era: getIdAluno()
+            stmt.setString(2, treino.getFuncionario());    // Era: getIdFuncionario()
+            stmt.setString(3, treino.getTreino());         // Era: getDescricaoTreino()
             stmt.setString(4, sdf.format(treino.getDataInicio()));
-            
+
             if (treino.getDataFim() != null) {
                 stmt.setString(5, sdf.format(treino.getDataFim()));
             } else {
                 stmt.setNull(5, Types.DATE);
             }
-            
+
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
@@ -47,25 +48,26 @@ public class TreinoDAO implements ITreinoDAO {
     
     @Override
     public void altera(Treino treino) {
-        String sql = "UPDATE Treinos SET idAluno = ?, idFuncionario = ?, descricaoTreino = ?, " +
+        String sql = "UPDATE Treinos SET aluno = ?, funcionario = ?, treino = ?, " +
                     "dataInicio = ?, dataFim = ? WHERE idTreino = ?";
-        
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, treino.getIdAluno());
-            stmt.setInt(2, treino.getIdFuncionario());
-            stmt.setString(3, treino.getDescricaoTreino());
+            // CORREÇÃO: Mudado para getAluno() e getFuncionario()
+            stmt.setString(1, treino.getAluno());          // Era: getIdAluno()
+            stmt.setString(2, treino.getFuncionario());    // Era: getIdFuncionario()
+            stmt.setString(3, treino.getTreino());         // Era: getDescricaoTreino()
             stmt.setString(4, sdf.format(treino.getDataInicio()));
-            
+
             if (treino.getDataFim() != null) {
                 stmt.setString(5, sdf.format(treino.getDataFim()));
             } else {
                 stmt.setNull(5, Types.DATE);
             }
-            
+
             stmt.setInt(6, treino.getIdTreino());
-            
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,16 +91,18 @@ public class TreinoDAO implements ITreinoDAO {
             List<Treino> treinos = new ArrayList<>();
             PreparedStatement stmt = this.connection.prepareStatement("SELECT * FROM Treinos");
             ResultSet rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 Treino treino = new Treino();
                 treino.setIdTreino(rs.getInt("idTreino"));
-                treino.setIdAluno(rs.getInt("idAluno"));
-                treino.setIdFuncionario(rs.getInt("idFuncionario"));
-                treino.setDescricaoTreino(rs.getString("descricaoTreino"));
+
+                treino.setAluno(rs.getString("aluno"));              
+                treino.setFuncionario(rs.getString("funcionario"));  
+                treino.setTreino(rs.getString("treino")); 
+
                 treino.setDataInicio(rs.getDate("dataInicio"));
                 treino.setDataFim(rs.getDate("dataFim"));
-                
+
                 treinos.add(treino);
             }
             rs.close();
@@ -118,12 +122,15 @@ public class TreinoDAO implements ITreinoDAO {
                 if (rs.next()) {
                     Treino treino = new Treino();
                     treino.setIdTreino(rs.getInt("idTreino"));
-                    treino.setIdAluno(rs.getInt("idAluno"));
-                    treino.setIdFuncionario(rs.getInt("idFuncionario"));
-                    treino.setDescricaoTreino(rs.getString("descricaoTreino"));
+
+                    // CORREÇÃO: Mudado para colunas de string
+                    treino.setAluno(rs.getString("aluno"));              // Era: setIdAluno()
+                    treino.setFuncionario(rs.getString("funcionario"));  // Era: setIdFuncionario()
+                    treino.setTreino(rs.getString("treino"));            // Era: setDescricaoTreino()
+
                     treino.setDataInicio(rs.getDate("dataInicio"));
                     treino.setDataFim(rs.getDate("dataFim"));
-                    
+
                     return treino;
                 }
             }
