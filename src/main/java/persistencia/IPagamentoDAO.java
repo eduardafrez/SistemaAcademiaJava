@@ -6,7 +6,10 @@ package persistencia;
 
 import java.util.List;
 import negocio.Pagamento;
-
+/**
+ *
+ * @author Eduarda de Oliveira
+ */
 public interface IPagamentoDAO {
     public void adiciona(Pagamento pagamento);
     public void altera(Pagamento pagamento);

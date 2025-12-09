@@ -1,8 +1,6 @@
 package negocio;
 
 public class Funcionario {
-    
-    // Baseado no PDF: idFuncionario, nome, usuario, senha
     private int idFuncionario;
     private String nome;
     private String usuario;

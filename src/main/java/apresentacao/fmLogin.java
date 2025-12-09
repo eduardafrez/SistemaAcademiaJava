@@ -175,7 +175,7 @@ public class fmLogin extends javax.swing.JFrame {
             }
         }
 
-        // Fechar conexão (importante!)
+        // Fechar conexão
                 if (acessoPermitido) {
             fmPrincipal principal = new fmPrincipal();
             principal.setVisible(true);

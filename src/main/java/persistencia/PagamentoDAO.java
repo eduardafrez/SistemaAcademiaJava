@@ -7,7 +7,10 @@ import java.util.Calendar;
 import java.util.List;
 import negocio.Pagamento;
 
-
+/**
+ *
+ * @author Eduarda de Oliveira
+ */
 public class PagamentoDAO implements IPagamentoDAO {
     private Connection connection;
 
@@ -145,7 +148,6 @@ public class PagamentoDAO implements IPagamentoDAO {
         return null;
     }
     
-    // Métodos adicionais úteis (opcionais, mas recomendados)
     
     public List<Pagamento> listarPorAluno(int idAluno) {
         try {

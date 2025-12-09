@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import negocio.Treino;
 
+/**
+ *
+ * @author Eduarda de Oliveira
+ */
 public class TreinoDAO implements ITreinoDAO {
     private Connection connection;
 
@@ -27,10 +31,9 @@ public class TreinoDAO implements ITreinoDAO {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
 
-            // CORREÇÃO: Mudado para getAluno() e getFuncionario() (nomes em string)
-            stmt.setString(1, treino.getAluno());          // Era: getIdAluno()
-            stmt.setString(2, treino.getFuncionario());    // Era: getIdFuncionario()
-            stmt.setString(3, treino.getTreino());         // Era: getDescricaoTreino()
+            stmt.setString(1, treino.getAluno());          
+            stmt.setString(2, treino.getFuncionario());    
+            stmt.setString(3, treino.getTreino());         
             stmt.setString(4, sdf.format(treino.getDataInicio()));
 
             if (treino.getDataFim() != null) {
@@ -54,10 +57,9 @@ public class TreinoDAO implements ITreinoDAO {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            // CORREÇÃO: Mudado para getAluno() e getFuncionario()
-            stmt.setString(1, treino.getAluno());          // Era: getIdAluno()
-            stmt.setString(2, treino.getFuncionario());    // Era: getIdFuncionario()
-            stmt.setString(3, treino.getTreino());         // Era: getDescricaoTreino()
+            stmt.setString(1, treino.getAluno());          
+            stmt.setString(2, treino.getFuncionario());   
+            stmt.setString(3, treino.getTreino());        
             stmt.setString(4, sdf.format(treino.getDataInicio()));
 
             if (treino.getDataFim() != null) {
@@ -123,10 +125,9 @@ public class TreinoDAO implements ITreinoDAO {
                     Treino treino = new Treino();
                     treino.setIdTreino(rs.getInt("idTreino"));
 
-                    // CORREÇÃO: Mudado para colunas de string
-                    treino.setAluno(rs.getString("aluno"));              // Era: setIdAluno()
-                    treino.setFuncionario(rs.getString("funcionario"));  // Era: setIdFuncionario()
-                    treino.setTreino(rs.getString("treino"));            // Era: setDescricaoTreino()
+                    treino.setAluno(rs.getString("aluno"));            
+                    treino.setFuncionario(rs.getString("funcionario")); 
+                    treino.setTreino(rs.getString("treino"));     
 
                     treino.setDataInicio(rs.getDate("dataInicio"));
                     treino.setDataFim(rs.getDate("dataFim"));

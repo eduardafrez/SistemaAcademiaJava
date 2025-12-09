@@ -151,7 +151,7 @@ public class fmPrincipal extends javax.swing.JFrame {
                 .addGap(182, 182, 182))
         );
 
-        jButton1.setBackground(new java.awt.Color(52, 192, 163));
+        jButton1.setBackground(new java.awt.Color(204, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/logofinal.png"))); // NOI18N
 
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -285,7 +285,7 @@ public class fmPrincipal extends javax.swing.JFrame {
             if (frame instanceof fmListagem && frame.isVisible()) {
                 try {
                     frame.setSelected(true);
-                    return; // Já está aberta, sai do método
+                    return;
                 } catch (PropertyVetoException ex) {
                     ex.printStackTrace();
                 }
@@ -351,19 +351,16 @@ public class fmPrincipal extends javax.swing.JFrame {
             if (frame instanceof fmFichaTreino && frame.isVisible()) {
                 try {
                     frame.setSelected(true);
-                    return; // Já está aberta, sai do método
+                    return; 
                 } catch (PropertyVetoException ex) {
                     ex.printStackTrace();
                 }
             }
        }
-        // Cria a janela de ficha
         fmFichaTreino janela = new fmFichaTreino();
-
         // Adiciona no painel principal
         jDesktopPane1.add(janela);
 
-        // Faz aparecer
         janela.setVisible(true);
     }//GEN-LAST:event_btListaActionPerformed
 
@@ -390,7 +387,7 @@ public class fmPrincipal extends javax.swing.JFrame {
             if (frame instanceof fmAluno && frame.isVisible()) {
                 try {
                     frame.setSelected(true);
-                    return; // Já está aberta, sai do método
+                    return; 
                 } catch (PropertyVetoException ex) {
                     ex.printStackTrace();
                 }
@@ -408,7 +405,7 @@ public class fmPrincipal extends javax.swing.JFrame {
             if (frame instanceof fmFuncionario && frame.isVisible()) {
                 try {
                     frame.setSelected(true);
-                    return; // Já está aberta, sai do método
+                    return; 
                 } catch (PropertyVetoException ex) {
                     ex.printStackTrace();
                 }

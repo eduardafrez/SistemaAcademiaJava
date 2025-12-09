@@ -11,6 +11,10 @@ import java.util.Calendar;
 import java.util.List;
 import negocio.Aluno;
 
+/**
+ *
+ * @author Eduarda de Oliveira
+ */
 public class AlunoDAO implements IAlunoDAO{
     private Connection connection;
     

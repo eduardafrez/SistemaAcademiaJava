@@ -323,8 +323,6 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
         try {
-            // 1. VALIDAÇÕES BÁSICAS
-
             // Valida aluno
             if (cbAluno.getSelectedIndex() == 0) {
                 JOptionPane.showMessageDialog(this, 
@@ -375,8 +373,6 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 2. PEGA OS DADOS DOS CAMPOS
-
             // Pega nome do aluno (string do combobox)
             String nomeAluno = (String) cbAluno.getSelectedItem();
 
@@ -386,7 +382,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             // Converte tabela para string
             String treinoString = converterTabelaParaString();
 
-            // 3. CONVERTE DATAS (dd/MM/yyyy para Date)
+            // CONVERTE DATAS
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
             Date dataInicio;
@@ -396,7 +392,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 dataInicio = sdf.parse(dataInicioStr);
                 dataFim = sdf.parse(dataVencimentoStr);
 
-                // Verifica se data fim é posterior à data início
+                // Verifica se data fim ta depois
                 if (dataFim.before(dataInicio) || dataFim.equals(dataInicio)) {
                     JOptionPane.showMessageDialog(this, 
                         "A data de vencimento deve ser posterior à data de início!", 
@@ -414,7 +410,6 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 return;
             }
 
-            // 4. CRIA OBJETO TREINO
             Treino treino = new Treino();
             treino.setAluno(nomeAluno);
             treino.setFuncionario(nomeFuncionario);
@@ -422,11 +417,9 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             treino.setDataInicio(dataInicio);
             treino.setDataFim(dataFim);
 
-            // 5. SALVA NO BANCO DE DADOS
             ITreinoDAO treinoDAO = new TreinoDAO();
             treinoDAO.adiciona(treino);
 
-            // 6. MENSAGEM DE SUCESSO COM DETALHES
             SimpleDateFormat sdfDisplay = new SimpleDateFormat("dd/MM/yyyy");
             String mensagemSucesso = String.format(
                 "Ficha de treino salva com sucesso!\n\n" +
@@ -449,7 +442,6 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 "Sucesso", 
                 JOptionPane.INFORMATION_MESSAGE);
 
-            // 7. LIMPA FORMULÁRIO PARA NOVA FICHA
             limparFormulario();
 
         } catch (Exception e) {
@@ -499,7 +491,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
 
     private void formInternalFrameOpened(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameOpened
         // TODO add your handling code here:
-                try {
+        try {
             // ALUNOS
             IAlunoDAO alunoDAO = new AlunoDAO();
             DefaultComboBoxModel modeloAluno = new DefaultComboBoxModel();
@@ -512,7 +504,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             }
 
             cbAluno.setModel(modeloAluno);
-            cbAluno.setSelectedIndex(0); // Seleciona a primeira opção
+            cbAluno.setSelectedIndex(0);
 
             IFuncionarioDAO funcionarioDAO = new FuncionarioDAO();
             DefaultComboBoxModel modeloFunc = new DefaultComboBoxModel();
@@ -550,21 +542,21 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         // TODO add your handling code here:
         try {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        Date hoje = new Date();
-        
-        // Data de início = hoje
-        txtInicio.setText(sdf.format(hoje));
-        
-        // Data de vencimento = hoje + 30 dias
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(hoje);
-        calendar.add(Calendar.DAY_OF_MONTH, 30);
-        txtVencimento.setText(sdf.format(calendar.getTime()));
-        
-    } catch (Exception e) {
-        // Ignora erro, mantém campos vazios
-    }
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date hoje = new Date();
+
+            // Data de início = hoje
+            txtInicio.setText(sdf.format(hoje));
+
+            // Data de vencimento = hoje + 30 dias
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(hoje);
+            calendar.add(Calendar.DAY_OF_MONTH, 30);
+            txtVencimento.setText(sdf.format(calendar.getTime()));
+
+        } catch (Exception e) {
+            // Ignora erro, mantém campos vazios
+        }
     }//GEN-LAST:event_formInternalFrameActivated
 
     private String formatarTreinoParaExibicao(String treinoString) {
@@ -601,7 +593,7 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
                 Object valor = tbTreino.getValueAt(linha, coluna);
                 String texto = (valor != null) ? valor.toString().trim() : "";
 
-                // Remove aspas se houver
+                // tira aspas
                 texto = texto.replace("\"", "");
 
                 // Se o texto contém vírgula ou ponto e vírgula, coloca entre aspas
@@ -620,33 +612,25 @@ public class fmFichaTreino extends javax.swing.JInternalFrame {
             }
         }
 
-        // DEBUG: Mostrar string gerada
-        System.out.println("String gerada: " + sb.toString());
-
         return sb.toString();
     }
 
     // MÉTODO PARA LIMPAR FORMULÁRIO
     private void limparFormulario() {
-        // Limpa comboboxes
         cbAluno.setSelectedIndex(0);
         cbFuncionario.setSelectedIndex(0);
         cbExercicio.setSelectedIndex(0);
 
-        // Limpa datas
         txtInicio.setText("");
         txtVencimento.setText("");
 
-        // Limpa tabela
         DefaultTableModel modelo = (DefaultTableModel) tbTreino.getModel();
         modelo.setRowCount(0);
 
-        // Reseta spinners para valores padrão
         spSeries.setValue(3);
         spRepeticoes.setValue(10);
         spCarga.setValue(10);
 
-        // Foco no aluno
         cbAluno.requestFocus();
     }
 

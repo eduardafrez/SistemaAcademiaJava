@@ -19,7 +19,7 @@ import persistencia.PagamentoDAO;
 
 /**
  *
- * @author Administrator
+ * @author Eduarda de Oliveira
  */
 public class fmPagamento extends javax.swing.JInternalFrame {
 
@@ -294,9 +294,9 @@ public class fmPagamento extends javax.swing.JInternalFrame {
 
         // Inserir no banco de dados
         PagamentoDAO pagamentoDAO = new PagamentoDAO();
-        pagamentoDAO.adiciona(pagamento); // Este método retorna void
+        pagamentoDAO.adiciona(pagamento);
         
-        // Se chegou aqui sem lançar exceção, foi bem-sucedido
+        
         JOptionPane.showMessageDialog(this, 
             "Pagamento registrado com sucesso!\n" +
             "Aluno: " + nomeAluno + " (ID: " + idAluno + ")\n" +
@@ -307,7 +307,6 @@ public class fmPagamento extends javax.swing.JInternalFrame {
             "Pagamento realizado", 
             JOptionPane.INFORMATION_MESSAGE);
         
-        // Limpar campos após sucesso
         limparCampos();
 
     } catch (NumberFormatException e) {
@@ -380,7 +379,7 @@ public class fmPagamento extends javax.swing.JInternalFrame {
         cbAluno.setSelectedIndex(0);
         cbPlano.setSelectedIndex(0);
         cbPagamento.setSelectedIndex(0);
-        txtValor.setText("0,00");
+        txtValor.setText("100,00");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
